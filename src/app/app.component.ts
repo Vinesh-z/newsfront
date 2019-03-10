@@ -43,7 +43,7 @@ this.sub = this.dataService.getQuotes()
       this.stockQuote = quote;
       console.log(this.stockQuote);
     });*/
-    
+    console.log('test');
     this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         this.router.navigated = false;
