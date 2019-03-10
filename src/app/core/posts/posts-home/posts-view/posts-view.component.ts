@@ -66,11 +66,23 @@ export class PostsViewComponent implements OnInit {
                     this.forShowing = 5;
                     if (this.first > (this.pageArray.length - 2)) {
                       this.firstLimit = this.first - 5;
+                      if(this.firstLimit<0){
+                        this.firstLimit = 0;
+                      }
+                      console.log(this.firstLimit);
                     }
                     else {
                       this.firstLimit = this.first - 3;
+                      console.log(this.firstLimit);
+                      if(this.firstLimit<0){
+                        this.firstLimit = 0;
+                      }
                       if (this.first - 3 >= 0) {
                         this.firstLimit = this.first - 3;
+                        if(this.firstLimit<0){
+                          this.firstLimit = 0;
+                        }
+                        console.log(this.firstLimit);
                         this.pageOne = false;
                       }
                       else {
@@ -180,11 +192,23 @@ export class PostsViewComponent implements OnInit {
                     this.forShowing = 5;
                     if (this.first > (this.pageArray.length - 2)) {
                       this.firstLimit = this.first - 5;
+                      console.log(this.firstLimit);
+                      if(this.firstLimit<0){
+                        this.firstLimit = 0;
+                      }
                     }
                     else {
                       this.firstLimit = this.first - 3;
+                      console.log(this.firstLimit);
+                      if(this.firstLimit<0){
+                        this.firstLimit = 0;
+                      }
                       if (this.first - 3 >= 0) {
                         this.firstLimit = this.first - 3;
+                        console.log(this.firstLimit);
+                        if(this.firstLimit<0){
+                          this.firstLimit = 0;
+                        }
                         this.pageOne = false;
                       }
                       else {
@@ -245,7 +269,8 @@ export class PostsViewComponent implements OnInit {
   filterByCategory(categoryId, first, second) {
     first = (first - 1) * 9;
     if (categoryId === 'all') {
-      this.router.navigateByUrl('/');
+      
+      //this.router.navigateByUrl('/');
       this.selectedCategory = 'all';
       this.paginationLoaded = false;
       this.facadeService.getCountOfPosts().subscribe(
@@ -260,11 +285,23 @@ export class PostsViewComponent implements OnInit {
             this.forShowing = 5;
             if (this.first > (this.pageArray.length - 2)) {
               this.firstLimit = this.first - 5;
+              console.log(this.firstLimit);
+              if(this.firstLimit<0){
+                this.firstLimit = 0;
+              }
             }
             else {
               this.firstLimit = this.first - 3;
+              console.log(this.firstLimit);
+              if(this.firstLimit<0){
+                this.firstLimit = 0;
+              }
               if (this.first - 3 >= 0) {
                 this.firstLimit = this.first - 3;
+                console.log(this.firstLimit);
+                if(this.firstLimit<0){
+                  this.firstLimit = 0;
+                }
                 this.pageOne = false;
               }
               else {
@@ -274,6 +311,8 @@ export class PostsViewComponent implements OnInit {
           else {
             this.forShowing = this.pageArray.length;
           }
+          console.log(this.pageArray);
+
           this.facadeService.getPosts(first, second).subscribe(
             res => {
 
@@ -318,11 +357,23 @@ export class PostsViewComponent implements OnInit {
             this.forShowing = 5;
             if (this.first > (this.pageArray.length - 2)) {
               this.firstLimit = this.first - 5;
+              console.log(this.firstLimit);
+              if(this.firstLimit<0){
+                this.firstLimit = 0;
+              }
             }
             else {
               this.firstLimit = this.first - 3;
+              console.log(this.firstLimit);
+              if(this.firstLimit<0){
+                this.firstLimit = 0;
+              }
               if (this.first - 3 >= 0) {
                 this.firstLimit = this.first - 3;
+                console.log(this.firstLimit);
+                if(this.firstLimit<0){
+                  this.firstLimit = 0;
+                }
                 this.pageOne = false;
               }
               else {

@@ -130,6 +130,7 @@
 
     <div class="row" *ngIf="paginationLoaded">
       <div class="col-md-12 pagination-div" *ngIf="(first<forShowing || first==forShowing) && pageOne">
+        
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <li class="page-item" *ngIf="first != '1'" (click)="filterPage(selectedCategory, first-1, 9)"><a
@@ -151,6 +152,7 @@
             </nav>
           </div> 
       <div class="col-md-12 pagination-div" *ngIf="(first<forShowing || first==forShowing) && !pageOne">
+        
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item" *ngIf="first != '1'" (click)="filterPage(selectedCategory, first-1, 9)"><a
@@ -172,6 +174,7 @@
         </nav>
       </div>
       <div class="col-md-12 pagination-div" *ngIf="first>forShowing">
+        
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item" *ngIf="first != '1'" (click)="filterPage(selectedCategory, first-1, 9)"><a
