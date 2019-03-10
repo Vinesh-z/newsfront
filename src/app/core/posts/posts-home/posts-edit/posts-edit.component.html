@@ -1,0 +1,84 @@
+<div class="container cat-gallery-container">
+  <div class="row top-heading" *ngIf="allCategoriesLoaded">
+
+    <div class="col-md-8 offset-md-2">
+      <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+          <h3><strong>Edit post</strong></h3>
+        </div>
+
+      </div>
+      <div class="col-md-12">
+        
+
+        <form [formGroup]="addPostForm" (ngSubmit)="onAddPost()">
+
+          <div class="form-group">
+            <label for="formGroupExampleInput">News Category</label>
+            <select class="form-control" id="postCategory" formControlName="postCategory">
+              <option [value]="thisCategory._id" selected>{{ thisCategory.name }}</option>
+              <option *ngFor="let category of allCategories" [value]="category._id">{{ category.name }}</option>
+            </select>
+
+            <label for="formGroupExampleInput">Post Title</label>
+            <input required class="form-control" placeholder="Post Title *" id="formGroupExampleInput"
+              formControlName="postTitle">
+            <div *ngIf="addPostForm.get('postTitle').invalid">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid Post title. (Min-length: 2, Max-length: 100)
+              </div>
+
+            </div>
+            <label for="formGroupExampleInput">News Location</label>
+            <input required class="form-control" placeholder="News Location *" id="formGroupExampleInput"
+              formControlName="location">
+            <div *ngIf="addPostForm.get('location').invalid">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid news location. (Min-length: 2, Max-length: 30)
+              </div>
+
+            </div>
+
+
+            <label for="formGroupExampleInput">Post Content</label>
+            <textarea [froalaEditor] class="form-control" placeholder="Post Contnet *" id="formGroupExampleInput"
+              formControlName="postContent"></textarea>
+
+            <div *ngIf="addPostForm.get('postContent').invalid">
+              <div class="alert alert-warning" role="alert">
+                Please post valid news article. (Min-length: 20)
+              </div>
+
+            </div>
+            <div *ngIf="addPostForm.get('postContent').hasError('required')">
+              <div class="alert alert-warning" role="alert">
+                Post Content is <strong>required</strong>
+              </div>
+
+            </div>
+            <div *ngIf="!detailsCorrectlyFilled">
+              <div class="alert alert-warning" role="alert">
+                Fill up the correct details.
+              </div>
+
+            </div>
+
+            <div class="col-md-12 button-container">
+              <button class="submit-button" type="submit" [disabled]="!addPostForm.valid">Submit</button>
+            </div>
+            <div class="col-md-12 button-container">
+              <button class="submit-button back-button" (click)="goBack();">Back</button>
+            </div>
+
+            <div *ngIf="alreadyUpdated" class="alert alert-danger" role="alert">
+                {{ errorData }}
+              </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

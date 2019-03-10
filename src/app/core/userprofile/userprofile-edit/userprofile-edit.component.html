@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row edit-card">
+    <div class="col-md-10 offset-md-1">
+      <div class="alert alert-primary text-center" role="alert">
+        Change Profile Details
+      </div>
+      <div class="col-md-12" *ngIf="dataLoaded">
+        <form [formGroup]="addUserForm" (ngSubmit)="onAddUser()">
+          <div class="form-group">
+
+            <label for="formGroupExampleInput">Username</label>
+            <input required class="form-control" placeholder="Username *" id="formGroupExampleInput"
+              formControlName="username">
+            <div *ngIf="wrongData[0]">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid username. (Min-length: 3)
+              </div>
+
+            </div>
+
+            <label for="formGroupExampleInput">Email Id</label>
+            <input required class="form-control" placeholder="Email Id *" id="formGroupExampleInputEmailId"
+              formControlName="emailId">
+            <div *ngIf="wrongData[1]">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid email id.
+              </div>
+
+            </div>
+
+            <label for="formGroupExampleInput">Password</label>
+            <input required class="form-control" placeholder="Leave blank if you do not wanna change password." id="formGroupExampleInputPassword"
+              formControlName="password" type="password">
+
+            <div *ngIf="wrongDetails">
+                <div class="alert alert-danger" role="alert">
+                  Please choose a different email address.
+                </div>
+  
+              </div>
+  
+
+            <div class="col-md-12 button-container">
+              <button class="submit-button" type="submit">Submit</button>
+            </div>
+            <div class="col-md-12 button-container">
+              <button class="submit-button back-button" (click)="goBack();">Back</button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

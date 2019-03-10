@@ -1,0 +1,43 @@
+<div class="container cat-gallery-container">
+  <div class="row top-heading">
+
+    <div class="col-md-8 offset-md-2">
+      <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+          <h3><strong>Add a new category</strong></h3>
+        </div>
+
+      </div>
+      <div class="col-md-12">
+        <form [formGroup]="addCategoryForm" (ngSubmit)="onAddCategory()">
+
+          <div class="form-group">
+            <label for="formGroupExampleInput">Category Name</label>
+            <input class="form-control" placeholder="Category Name *" id="formGroupExampleInput" formControlName="categoryName">
+            <div *ngIf="addCategoryForm.get('categoryName').invalid && !addCategoryForm.get('categoryName').hasError('required')">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid Category name. (Min-length: 2, Max-length: 20)
+              </div>
+
+            </div>
+            <div *ngIf="addCategoryForm.get('categoryName').hasError('required')">
+              <div class="alert alert-warning" role="alert">
+                Category name is <strong>required</strong>
+              </div>
+
+            </div>
+
+            <div class="col-md-12 button-container">
+                <button class="submit-button" type="submit" [disabled]="!addCategoryForm.valid">Submit</button>
+            </div>
+            <div class="col-md-12 button-container">
+                <button class="submit-button back-button" (click)="goBack();">Back</button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="container news-gallery-container" *ngIf="allPostsLoaded; else loadingWait;">
+  <div class="row top-heading">
+
+    <div class="col-md-9">
+      <h3>News Articles</h3>
+      <p>Search Results for "{{ searchKey }}"</p>
+    </div>
+
+
+  </div>
+
+  <div *ngIf="allPosts.length>0; else noPostsFound">
+    <div class="row">
+      <div class="col-md-4 box-container" *ngFor="let post of allPosts">
+        <div class="news-box" (click)="navigateToDetails(post._id)">
+          <div class="ribbon ribbon-top-left"><span>{{ post.categoryName }}</span></div>
+          <div class="box-cat text-right" style="padding-right: 5px;">
+              <p>{{ post.stats.text }}</p>
+            </div>
+          <div class="box-image" [ngStyle]="{'background-image':'url('+post.postImage+')'}">
+
+          </div>
+          <div class="box-title text-center">
+            <p>{{ post.title }}</p>
+          </div><!--
+          <div class="box-summary text-center" [froalaView]="post.summary">
+          </div>-->
+          <div class="icon">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <ng-template #noPostsFound>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h3>No posts found for keyword "{{ searchKey }}"!</h3>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loadingWait>
+  <app-loader></app-loader>
+</ng-template>

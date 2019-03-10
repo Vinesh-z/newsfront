@@ -1,0 +1,304 @@
+<div id="fb-root"></div>
+
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+<div *ngIf="thisPostLoaded; else loadingWait">
+
+  <section id="heroImage" [ngStyle]="{'background-image':'url('+thisPost.postImage+')'}">
+
+  </section>
+
+
+  <section id="articleBody" *ngIf="thisPostLoaded">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 post-header-box ">
+        <div class="col-md-2 offset-md-5 typewriter">
+          <p>{{thisPost.category.name}}</p>
+        </div>
+        <h3>{{thisPost.title}}</h3>
+      </div>
+    </div>
+    <div class="row">
+
+
+      <app-dialog [(visible)]="showDialog">
+
+        <div class="row text-center" style="margin-top: 50px;">
+          <div class="col-md-12 text-center">
+            <p>Do you really want to delete this article?</p>
+          </div>
+
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button (click)="deleteThis(); showDialog = !showDialog;" class="btn btn-danger">Yes, Delete</button> &nbsp;
+            <button (click)="showDialog = !showDialog" class="btn btn-success">Nope</button>
+          </div>
+        </div>
+
+      </app-dialog>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="paper text-center">
+            <p>Posted on: {{ thisPost.createdAtParsed }}</p>
+            <p>Updated on: {{ thisPost.updatedAtParsed }}</p>
+            <p>Location: {{ thisPost.location }}</p>
+            <p style="font-weight: bold;">{{thisPost.stats.text}}</p>
+            <div class="row option-button-row text-center"
+              style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              &nbsp;&nbsp;
+              <button *ngIf="currentPermissions.post.update && !thisPost.newsSrc" class="btn btn-primary"
+                (click)="editThis();">Edit</button>
+              &nbsp;&nbsp;
+              <button *ngIf="currentPermissions.post.delete" class="btn btn-danger"
+                (click)="showDialog = !showDialog">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 offset-md-2 article-body" *ngIf="thisPost.content; else noContent">
+
+
+          <div *ngIf="!thisPost.newsSrc" [froalaView]="thisPost.content">
+          </div>
+          <div *ngIf="thisPost.newsSrc">{{ thisPost.content }}</div>
+        </div>
+        <ng-template #noContent>
+          <div class="col-md-12 text-center">
+          This article does not have any content.
+          </div>
+        </ng-template>
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+        <!--  Reactions: {{ thisPost.likesCount}} likes, {{ thisPost.dislikesCount}} dislikes --> 
+          <div class="row paper">
+              <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 reaction-box like-box">
+                        <h2> {{ thisPost.likesCount}}</h2>
+                        <p>likes</p>
+                    </div>
+                    <div class="col-md-3 reaction-box">
+                        <h2> {{ thisPost.dislikesCount}}</h2>
+                        <p>dislikes</p>
+                    </div>
+                </div>
+                  
+              </div>
+              <div class="col-md-6 text-center" *ngIf="currentPermissions.post.like && likeDataLoaded; else loginToLike">
+                  <button type="button" class="btn btn-success" (click)="saveLike();"
+                    *ngIf="userLiked">Like</button>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-outline-success" (click)="saveLike();"
+                    *ngIf="!userLiked">Like</button>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-danger" (click)="saveDislike();"
+                    *ngIf="userDisliked">Dislike</button>&nbsp;
+                  <button type="button" class="btn btn-outline-danger" (click)="saveDislike();"
+                    *ngIf="!userDisliked">Dislike</button>&nbsp;
+                  <div class="fb-share-button btn btn-primary" data-href="http://localhost:4200" data-layout="button_count"
+                    data-size="small" data-mobile-iframe="true"><a target="_blank"
+                      href="https://www.facebook.com/sharer/sharer.php?u=localhost:4200/{{router.url}}"
+                      class="fb-xfbml-parse-ignore text-white">Share</a></div>
+                </div>
+                <ng-template #loginToLike>
+                    <div class="col-md-6 text-right">
+                      <h4>Please login to like or dislike.</h4>
+                    </div>
+                  </ng-template>
+
+          </div>
+          
+        
+
+        </div>
+        <!--
+        <div class="col-md-8 offset-md-2" *ngIf="currentPermissions.post.like && likeDataLoaded">
+          <button type="button" class="btn btn-success" (click)="saveLike();"
+            *ngIf="userLiked">Like</button>&nbsp;&nbsp;
+          <button type="button" class="btn btn-outline-success" (click)="saveLike();"
+            *ngIf="!userLiked">Like</button>&nbsp;&nbsp;
+          <button type="button" class="btn btn-danger" (click)="saveDislike();"
+            *ngIf="userDisliked">Dislike</button>&nbsp;
+          <button type="button" class="btn btn-outline-danger" (click)="saveDislike();"
+            *ngIf="!userDisliked">Dislike</button>&nbsp;
+          <div class="fb-share-button btn btn-primary" data-href="http://localhost:4200" data-layout="button_count"
+            data-size="small" data-mobile-iframe="true"><a target="_blank"
+              href="https://www.facebook.com/sharer/sharer.php?u=localhost:4200/{{router.url}}"
+              class="fb-xfbml-parse-ignore text-white">Share</a></div>
+        </div> -->
+      </div>
+      <hr>
+
+      <hr>
+      <div class="row comment-container">
+
+        <div *ngIf="currentPermissions.comments.create; else notLoggedIn" class="col-md-8 offset-md-2"
+          style="margin-top: 40px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center;">
+          <div style="width: 100%;" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="mr-auto">Leave a comment</strong>
+
+            </div>
+            <div class="toast-body">
+
+              <form [formGroup]="addCommentForm" (ngSubmit)="onAddComment()">
+                <div class="form-group">
+                  <textarea required class="form-control" placeholder="Enter your comment here... *"
+                    id="formGroupExampleInput" formControlName="content"></textarea>
+                  <div *ngIf="addCommentForm.get('content').invalid">
+                    <div class="alert alert-warning" role="alert">
+                      Please post valid comment. (Min-length: 20)
+                    </div>
+                  </div>
+                  <div class="col-md-12 button-container">
+                    <button class="submit-button" type="submit" [disabled]="!addCommentForm.valid">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <ng-template #notLoggedIn>
+          <div class="col-md-8 offset-md-2 text-center"
+            style="margin-top: 40px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center;">
+            <h4>You have to log in to reply to this thread.</h4>
+          </div>
+        </ng-template>
+        <div class="col-md-12 text-center">
+          <h4>All Comments</h4>
+        </div>
+
+        <div *ngIf="allCommentsLoaded" class="col-md-8 offset-md-2"
+          style="display: flex; justify-content: center; align-items: center;">
+          <div *ngIf="allComments.length>0; else noCommentsFound;">
+
+            <div class="card comment-card" *ngFor="let comment of allComments">
+              <div class="card-body">
+                <div class="row">
+
+                  <div class="col-md-12">
+                    <p>
+                      <a class="float-left"><strong>{{ comment.username }}</strong></a>
+
+                      <a *ngIf="currentPermissions.comments.deleteAny || (currentPermissions.comments.delete && comment.userId==userData.userId)"
+                        class="float-right"><button type="button" class="btn btn-danger text-white"
+                          (click)="deleteThisComment(comment._id)">X</button>
+                      </a>
+                    </p>
+                    <div class="clearfix"></div>
+                    <p>{{ comment.content }}</p>
+                    <p>{{ comment.createdAtParsed }}</p>
+                    <p>
+                      <a class="float-right btn btn-outline-primary ml-2" data-toggle="collapse" aria-expanded="false"
+                        attr.data-target="#replyTo{{comment._id}}"> <i class="fa fa-reply"></i> Show Replies</a>
+                    </p>
+                  </div>
+                </div>
+                <div id="replyTo{{comment._id}}" class="collapse">
+                  <div class="card card-inner" *ngFor="let comm of comment.nestedComments" class="reply-individual">
+                    <div class="card-body reply-comments-each">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="col-md-12">
+                            <div class="col-md-8">
+                              <p><a><strong>{{ comm.username }}</strong></a></p>
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                          </div>
+
+
+                          <p>{{ comm.content }}</p>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="currentPermissions.comments.create; else notLoggedIn" class="row ">
+                    <div class="toast fade show reply-form-div" role="alert" aria-live="assertive" aria-atomic="true">
+                      <div class="toast-header">
+                        <strong class="mr-auto">Leave a comment</strong>
+
+                      </div>
+                      <div class="toast-body">
+
+                        <form [formGroup]="addCommentReplyForm" (ngSubmit)="onAddCommentReply(comment._id)">
+                          <div class="form-group">
+                            <textarea required class="form-control" placeholder="Enter your reply here... *"
+                              id="formGroupExampleInput" formControlName="content"></textarea>
+                            <div *ngIf="addCommentReplyForm.get('content').invalid">
+                              <div class="alert alert-warning" role="alert">
+                                Please post valid comment. (Min-length: 20)
+                              </div>
+                            </div>
+                            <div class="col-md-12 button-container">
+                              <button class="submit-button" type="submit" [disabled]="!addCommentReplyForm.valid">Add
+                                Reply</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+          <ng-template #noCommentsFound>
+            <div class="row text-center">
+              <h5>No comments found!</h5>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+      <div class="row container-related" *ngIf="allPostsLoaded && allPosts.length>0">
+        <div class="col-md-12 text-center related-head">
+          <h2>Related News Articles</h2>
+        </div>
+        <div class="col-md-4 box-container" *ngFor="let post of allPosts; let i = index">
+          <div class="news-box" (click)="navigateToDetails(post._id)">
+            <div class="ribbon ribbon-top-left"><span>{{ post.categoryName }}</span></div>
+            <div class="box-cat text-right" style="padding-right: 5px;">
+              <p>{{ post.stats.text }}</p>
+            </div>
+            <div class="box-image" [ngStyle]="{'background-image':'url('+post.postImage+')'}">
+
+            </div>
+            <div class="box-title text-center font-weight-bold">
+              <p>{{ post.title }}</p>
+            </div>
+            <div class="box-summary text-center" [froalaView]="post.summary">
+            </div>
+            <div class="icon">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+</div>
+<ng-template #loadingWait>
+  <app-loader></app-loader>
+</ng-template>

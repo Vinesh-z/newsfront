@@ -1,0 +1,72 @@
+
+<div class="container cat-gallery-container">
+  <div class="row top-heading" *ngIf="allCategoriesLoaded">
+
+    <div class="col-md-8 offset-md-2 form-add">
+      <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+          <h3><strong>Add a new post</strong></h3>
+        </div>
+
+      </div>
+      <div class="col-md-12">
+        <form [formGroup]="addPostForm" (ngSubmit)="onAddPost()">
+          <div class="form-group">
+            <label for="formGroupExampleInput">News Category</label>
+            <select class="form-control" id="postCategory" formControlName="postCategory">
+              <option *ngFor="let category of allCategories" [value]="category._id">{{ category.name }}</option>
+            </select>
+            <div *ngIf="wrongData[0]">
+                <div class="alert alert-warning" role="alert">
+                  Please choose a category!
+                </div>
+  
+              </div>
+            <label for="formGroupExampleInput">News Title</label>
+            <input required class="form-control" placeholder="Post Title *" id="formGroupExampleInput" formControlName="postTitle">
+            <div *ngIf="wrongData[1]">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid Post title. (Min-length: 2, Max-length: 100)
+              </div>
+
+            </div>
+
+            <label for="formGroupExampleInput">News Location</label>
+            <input required class="form-control" placeholder="News Location *" id="formGroupExampleInput" formControlName="location">
+            <div *ngIf="wrongData[2]">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid news location. (Min-length: 2, Max-length: 30)
+              </div>
+
+            </div>
+
+            
+            <textarea [froalaEditor]="options" class="form-control" placeholder="Post Contnet *" id="formGroupExampleInputText" formControlName="postContent"></textarea>
+            <div *ngIf="wrongData[3]">
+              <div class="alert alert-warning" role="alert">
+                Please post valid news article. (Min-length: 20)
+              </div>
+
+            </div>
+            <br>
+            <input type="file" (change)="onFileChanged($event)" class="btn">
+            <div *ngIf="noFileSelected">
+              <div class="alert alert-warning" role="alert">
+                Please choose a cover image
+              </div>
+
+            </div>
+            <div class="col-md-12 button-container">
+              <button class="submit-button" type="submit">Submit</button>
+            </div>
+            <div class="col-md-12 button-container">
+              <button class="submit-button back-button" (click)="goBack();">Back</button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,207 @@
+<div class="container news-gallery-container" *ngIf="allPostsLoaded; else loadingWait">
+  <div class="row top-heading">
+
+    <div class="col-md-9">
+      <h3>News Articles</h3>
+    </div>
+
+    <div class="col-md-3" *ngIf="currentPermissions.post.create">
+      <div routerLink="/add" class="round-button text-center">+</div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="trendingArrayLoaded">
+    <div class="include-wrapper pb-5 col-12">
+      <section class="row">
+        <div class="col-12 col-md-6 pb-0 pb-md-3 pt-2 pr-md-1">
+          <div id="featured" class="carousel slide carousel" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="card border-0 rounded-0 text-light overflow zoom" style="cursor: pointer;"
+                  routerLink="/details/{{trendingArray[0].postId}}">
+                  <div class="position-relative">
+                    <div class="ratio_left-cover-1 image-wrapper" style="height: 360px; background-position: center center; background-size: cover;" [ngStyle]="{'background-image':'url('+trendingArray[0].postImage+')'}">
+                      <!--<a>
+                        <img class="img-fluid w-100" src="{{trendingArray[0].postImage}}" alt="Image description">
+                      </a>-->
+                    </div>
+                    <div class="position-absolute p-2 p-lg-3 b-0 w-100 bg-shadow">
+                      <a>
+                        <h2 class="h3 post-title text-white my-1">{{trendingArray[0].title}}</h2>
+                      </a>
+                      <div class="news-meta">
+                        <a class="p-1 badge badge-danger rounded-0">{{trendingArray[0].categoryName}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 pt-2 pl-md-1 mb-3 mb-lg-4">
+          <div class="row">
+            <div class="col-6 pb-1 pt-0 pr-1" style="cursor: pointer; margin-bottom: 10px;" *ngFor="let post of trendingArray | slice:1"
+              routerLink="/details/{{post.postId}}">
+              <div class="card border-0 rounded-0 text-white overflow zoom">
+                <div class="position-relative">
+                  <div class="ratio_right-cover-2 image-wrapper" style="height: 172px; background-size: cover; background-position: center center;" [ngStyle]="{'background-image':'url('+post.postImage+')'}">
+                   <!-- <a>
+                      <img class="img-fluid" src="{{post.postImage}}" alt="Image description">
+                    </a> -->
+                  </div>
+                  <div class="position-absolute p-2 p-lg-3 b-0 w-100 bg-shadow">
+                    <a class="p-1 badge badge-danger rounded-0">{{post.categoryName}}</a>
+                    <a>
+                      <h2 class="h5 text-white my-1">{{post.title}}</h2>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+     
+    </div>
+  </div> 
+
+
+
+
+
+
+  <div class="row">
+    <div class="col-md-3 offset-md-9" style="float: right;">
+      <select class="form-control" id="postCategory" (change)="onChange($event)">
+        <option value="all">All Categories</option>
+        <option *ngFor="let category of allCategories" [value]="category._id"
+          [selected]="selectedCategory == category._id">{{ category.name }}</option>
+      </select>
+    </div>
+  </div>
+  <div *ngIf="allPostsForShowing.length>0; else noPostsFound">
+    <div class="row">
+      <div class="col-md-4 col-sm-6 box-container" *ngFor="let post of allPostsForShowing">
+        <div class="news-box" routerLink="/details/{{post._id}}">
+          <div class="ribbon ribbon-top-left"><span>{{ post.categoryName }}</span></div>
+          <div class="box-cat text-right" style="padding-right: 5px;">
+            <p>{{ post.stats.text }}</p>
+          </div>
+          <div class="box-image" [ngStyle]="{'background-image':'url('+post.postImage+')'}">
+
+          </div>
+          <div class="box-title text-center">
+            <p>{{ post.title }}</p>
+          </div>
+          <div class="box-summary text-center" [froalaView]="post.summary">
+          </div>
+          <div class="icon">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--
+    <div class="row" *ngIf="paginationLoaded">
+      <div class="col-md-12 pagination-div">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item" *ngFor="let page of pageArray; let index = index"><a class="page-link" (click)="filterByCategory(selectedCategory, page, 9)">{{
+                page }}</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+   
+    <div class="row" *ngIf="paginationLoaded">
+      <div class="col-md-12 pagination-div">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item" *ngFor="let page of pageArray; let index = index"
+              [className]="page == first ? 'page-item active' : 'page-item inactive'"><a class="page-link"
+                (click)="filterPage(selectedCategory, page, 9)">{{ page }}</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div> -->
+
+    <div class="row" *ngIf="paginationLoaded">
+      <div class="col-md-12 pagination-div" *ngIf="(first<forShowing || first==forShowing) && pageOne">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" *ngIf="first != '1'" (click)="filterPage(selectedCategory, first-1, 9)"><a
+                    class="page-link">Prev</a></li>
+                <ng-container *ngFor="let page of pageArray | slice: 0: 5; let index = index">
+                  <li class="page-item"
+                    [className]="page == first ? 'page-item active' : 'page-item inactive'"><a class="page-link"
+                      (click)="filterPage(selectedCategory, page, 9)">{{
+                      page }}</a></li>
+                </ng-container>
+                <li class="page-item" *ngIf="pageArray.length>forShowing && first != pageArray.length"><a class="page-link"
+                    style="cursor: auto">...</a></li>
+                <li class="page-item" *ngIf="pageArray.length>forShowing && first != pageArray.length"><a class="page-link"
+                    (click)="filterPage(selectedCategory, pageArray.length, 9)">{{ pageArray.length }}</a></li>
+    
+                <li class="page-item" *ngIf="first != pageArray[pageArray.length-1]"
+                  (click)="filterPageNext(selectedCategory, first, 1, 9)"><a class="page-link">Next</a></li>
+              </ul>
+            </nav>
+          </div> 
+      <div class="col-md-12 pagination-div" *ngIf="(first<forShowing || first==forShowing) && !pageOne">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item" *ngIf="first != '1'" (click)="filterPage(selectedCategory, first-1, 9)"><a
+                class="page-link">Prev</a></li>
+            <ng-container *ngFor="let page of pageArray | slice: firstLimit: firstLimit+5; let index = index">
+              <li class="page-item"
+                [className]="page == first ? 'page-item active' : 'page-item inactive'"><a class="page-link"
+                  (click)="filterPage(selectedCategory, page, 9)">{{
+                  page }}</a></li>
+            </ng-container>
+            <li class="page-item" *ngIf="pageArray.length>forShowing && first != pageArray.length"><a class="page-link"
+                style="cursor: auto">...</a></li>
+            <li class="page-item" *ngIf="pageArray.length>forShowing && first != pageArray.length"><a class="page-link"
+                (click)="filterPage(selectedCategory, pageArray.length, 9)">{{ pageArray.length }}</a></li>
+
+            <li class="page-item" *ngIf="first != pageArray[pageArray.length-1]"
+              (click)="filterPageNext(selectedCategory, first, 1, 9)"><a class="page-link">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-md-12 pagination-div" *ngIf="first>forShowing">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item" *ngIf="first != '1'" (click)="filterPage(selectedCategory, first-1, 9)"><a
+                class="page-link">Prev</a></li>
+            <ng-container *ngFor="let page of pageArray| slice: firstLimit: firstLimit+5; let index = index;">
+              <li class="page-item" [className]="page == first ? 'page-item active' : 'page-item inactive'"><a
+                  class="page-link" (click)="filterPage(selectedCategory, page, 9)">{{
+                    page }}</a></li>
+            </ng-container>
+            <li class="page-item" *ngIf="pageArray.length>forShowing && first != pageArray.length && first<pageArray.length-2"><a class="page-link"
+                style="cursor: auto">...</a></li>
+            <li class="page-item" *ngIf="pageArray.length>forShowing && first != pageArray.length && first<pageArray.length-2"><a class="page-link"
+                (click)="filterPage(selectedCategory, pageArray.length, 9)">{{ pageArray.length }}</a></li>
+            <li class="page-item" *ngIf="first != pageArray[pageArray.length-1]"
+              (click)="filterPageNext(selectedCategory, first, 1, 9)"><a class="page-link">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+  <ng-template #noPostsFound>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h3>No posts found yet!</h3>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loadingWait>
+  <app-loader></app-loader>
+</ng-template>

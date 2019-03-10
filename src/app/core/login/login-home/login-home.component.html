@@ -1,0 +1,60 @@
+<div class="container cat-gallery-container">
+  <div class="row top-heading">
+
+    <div class="col-md-8 offset-md-2">
+      <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+          <h3><strong>Login</strong></h3>
+        </div>
+
+      </div>
+      <div class="col-md-12 text-center">
+        <button class="loginBtn loginBtn--google" (click)="socialSignIn('google')">Sign in with Google</button>
+      </div>
+      <div class="col-md-12 text-center">
+        - OR -
+      </div>
+      <div class="col-md-12">
+        <form [formGroup]="loginForm">
+          <div class="form-group">
+            <label for="formGroupExampleInput">Email Id</label>
+            <input required class="form-control" placeholder="Email Id *" id="formGroupExampleInputEmailId"
+              formControlName="emailId">
+            <div *ngIf="formSubmitted">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid email id.
+              </div>
+            </div>
+            <label for="formGroupExampleInput">Password</label>
+            <input required class="form-control" placeholder="Enter password *" id="formGroupExampleInputPass"
+              formControlName="password" type="password">
+              <div *ngIf="formSubmittedPass">
+                  <div class="alert alert-warning" role="alert">
+                    Please enter a valid password
+                  </div>
+                </div>
+            
+            
+            
+
+            <div *ngIf="wrongDetails">
+              <div class="alert alert-danger" role="alert">
+                Wrong username or password!
+              </div>
+
+            </div>
+
+            <div class="col-md-12 button-container">
+              <button class="submit-button" type="submit" (click)="onLogin()">Login</button>
+            </div>
+            <div class="col-md-12 button-container">
+              <button class="submit-button back-button" (click)="goBack();">Back</button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

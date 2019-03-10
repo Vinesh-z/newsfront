@@ -1,0 +1,94 @@
+<!---<div class="search-box-top" *ngIf="searchPressed">
+  <section></section>
+</div>-->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" routerLink="/">News App</a>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/categories">Categories</a>
+        </li>
+        <li class="nav-item" *ngIf="loginService.isAdmin()">
+          <a class="nav-link" routerLink="/register/roles">Assign Role</a>
+        </li>
+        <li class="nav-item" *ngIf="!loginService.userLoggedIn">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
+        <li class="nav-item" *ngIf="!loginService.userLoggedIn">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+      </ul>
+
+      <form class="form-inline my-2 my-lg-0">
+        <input #searchKey class="form-control mr-sm-2" type="text" placeholder="Search" (click)="searchPressedFunc()">
+        <button class="btn btn-primary" (click)="searchPosts(searchKey.value); searchKey.value='';">Search</button>
+      </form>&nbsp;&nbsp;
+      <div class="dropdown" *ngIf="loginService.userLoggedIn">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Hello, {{ facadeService.getUserDataFromLocalStorage().username }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <a class="dropdown-item" routerLink="/profile">My Profile</a>
+          <a class="dropdown-item" routerLink="/liked">Liked Posts</a>
+          <a class="dropdown-item" (click)="logout();">Sign Out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div *ngIf="sessionTimedOut" class="alert alert-danger" role="alert">
+  <strong>Sorry!</strong> Your session expired. Please login again.
+</div>
+
+
+<router-outlet></router-outlet>
+
+<footer class="section footer-classic context-dark bg-image" style=" background: #2d3246; padding-top: 30px;">
+  <div class="container">
+    <div class="row row-30">
+      <div class="col-md-6">
+        <div class="pr-xl-4"><a class="brand">News Hunt App</a>
+          <p>News hunt app is a good app. .</p>
+        </div>
+      </div>
+      <div class="col-md-6" style="text-align: right;">
+        <h5>Contacts</h5>
+        <dl class="contact-list">
+          <dt>Address:</dt>
+          <dd>The news hunt app address</dd>
+        </dl>
+        <dl class="contact-list">
+          <dt>email:</dt>
+          <dd><a>newshuntapp@gmail.com</a></dd>
+        </dl>
+        <dl class="contact-list">
+          <dt>phones:</dt>
+          <dd><a>9199919944</a> <span>or</span> <a>8893004152</a>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutters social-container">
+    <div class="container">
+      <div class="col-md-12 text-center">
+        A reference implementation project.
+      </div>
+    </div>
+
+  </div>
+</footer>

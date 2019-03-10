@@ -1,0 +1,76 @@
+<div class="container cat-gallery-container">
+  <div class="row top-heading">
+
+    <div class="col-md-8 offset-md-2">
+      <div class="col-md-12">
+        <div class="alert alert-info text-center" role="alert">
+          <h3><strong>Sign Up!</strong></h3>
+        </div>
+
+      </div>
+      <div class="col-md-12">
+        <form [formGroup]="addUserForm" (ngSubmit)="onAddUser(confirmPass.value)">
+          <div class="form-group">
+
+            <label for="formGroupExampleInput">Username</label>
+            <input required class="form-control" placeholder="Username *" id="formGroupExampleInput"
+              formControlName="username">
+            <div *ngIf="wrongData[0]">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid username. (Min-length: 3)
+              </div>
+
+            </div>
+
+            <label for="formGroupExampleInput">Email Id</label>
+            <input required class="form-control" placeholder="Email Id *" id="formGroupExampleInputEmailId"
+              formControlName="emailId">
+            <div *ngIf="wrongData[1]">
+              <div class="alert alert-warning" role="alert">
+                Please enter a valid email id.
+              </div>
+
+            </div>
+            <label for="formGroupExampleInput">Password</label>
+            <input required class="form-control" placeholder="Enter password *" id="formGroupExampleInputPass"
+              formControlName="password" type="password">
+              <div *ngIf="wrongData[2]">
+                  <div class="alert alert-warning" role="alert">
+                    Invalid password!
+                  </div>
+    
+                </div>
+
+            <label for="formGroupExampleInput">Repeat Password</label>
+            <input required class="form-control" placeholder="Enter password again *"
+              id="formGroupExampleInputPassRepeat" type="password" #confirmPass>
+
+            <div *ngIf="wrongData[3]">
+              <div class="alert alert-warning" role="alert">
+                Passwords do not match!
+              </div>
+
+            </div>
+
+            <div *ngIf="wrongDetails">
+                <div class="alert alert-danger" role="alert">
+                  Please choose a different email address.
+                </div>
+  
+              </div>
+  
+
+            <div class="col-md-12 button-container">
+              <button class="submit-button" type="submit">Submit</button>
+            </div>
+            <div class="col-md-12 button-container">
+              <button class="submit-button back-button" (click)="goBack();">Back</button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

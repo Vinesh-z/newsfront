@@ -1,0 +1,75 @@
+<section>
+  <div class="container" *ngIf="userDataLoaded">
+    <div class="row">
+      <div class="col-md-10 offset-md-1 card-pro">
+        <div class="row">
+          <div class="col-md-5 offset-md-1" style="
+          display: flex;
+          align-items: center;
+          justify-content: center; margin-top: 15px;">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="img-box" *ngIf="!userData.picture">
+
+                </div>
+                <div class="img-box" *ngIf="userData.picture"
+                  [ngStyle]="{'background-image':'url('+userData.picture+')'}">
+
+                </div>
+              </div>
+              <div class="text-center">
+                  <div class="col-md-12">
+                    <div class="typewriter text-center">
+                      <p style="margin-top: 15px; font-size: 1.8em; color: #4d4d4d; font-weight: bold;">Hi, {{userData.username}}</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- <button class="submit-button">Change Picture</button> -->
+           
+
+
+          </div>
+          <div class="col-md-5 card text-center"
+            style="margin-top:30px; padding-top:15px; box-shadow: 2px 2px 25px #bfbfbf;">
+            <h3>{{userData.username}}</h3>
+            <p><i class="fa fa-envelope"></i>&nbsp;{{userData.emailId}}</p>
+            <div class="row">
+              <div class="col-md-4 reaction-box like-box text-center">
+                <h2>{{likes.length}}</h2>
+                <p>likes</p>
+              </div>
+              <div class="col-md-4 reaction-box text-center">
+                <h2>{{dislikes.length}}</h2>
+                <p>dislikes</p>
+              </div>
+              <div class="col-md-4 reaction-box text-center">
+                <h2 *ngIf="!commentsLoaded">0</h2>
+                <h2 *ngIf="commentsLoaded">{{comments.length}}</h2>
+                <p>comments</p>
+              </div>
+            </div>
+            <!--
+            <div class="row">
+              <div class="col-md-12 button-holder">
+                <button class="btn btn-primary edit-button">Edit Info</button>
+              </div>
+            </div>-->
+            <div class="row">
+              <div class="col-md-12 button-holder" style="display: flex; align-items: center; justify-content: center">
+                <button class="btn btn-info liked-button" routerLink="/liked">My Liked Posts</button>&nbsp;&nbsp;
+                <button class="btn btn-danger liked-button" routerLink="/profile/edit-user">Update Profile</button>
+              </div>
+              
+              <!--
+              <div class="col-md-6 button-holder">
+                <button class="btn btn-warning comments-button" routerLink="/profile/comments">My Comments</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

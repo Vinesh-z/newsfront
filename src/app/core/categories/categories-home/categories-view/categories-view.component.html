@@ -1,0 +1,28 @@
+<div class="container cat-gallery-container">
+  <div class="row top-heading">
+
+    <div class="col-md-9">
+      <h3>All Categories</h3>
+    </div>
+
+    <div class="col-md-3">
+      <div *ngIf="currentPermissions.category.create" routerLink="/categories/add" class="round-button text-center">+
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="allCategoriesLoaded; else categoriesLoading">
+    <div class="col-md-3 box-container" *ngFor="let category of allCategories">
+      <div class="cat-box text-center">
+        <p>{{ category.name }}&nbsp;&nbsp;<fa name="cog" *ngIf="currentPermissions.category.update"
+            (click)="editThis(category._id);"></fa>
+        </p>
+      </div>
+    </div>
+  </div>
+  <ng-template #categoriesLoading>
+    <div class="container loader-container">
+      <div class="loader"></div>
+    </div>
+  </ng-template>
+</div>

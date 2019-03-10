@@ -1,0 +1,188 @@
+
+
+nav {
+    box-shadow: 2px 2px 25px #BFBFBF;
+}
+
+.navbar-brand {
+    cursor: pointer;
+}
+
+.filter-wrapper,
+.keyword-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.filter-wrapper {
+  min-height: 200px;
+  flex-flow: column wrap;;
+  position: relative
+}
+.keyword-wrapper {
+  width: 100%;
+  position: relative;
+}
+#keyword {
+  border: 1px solid #ccc;
+  padding: 10px;
+  font: 1.5em 'Arimo', sans-serif;
+  width: 50%;
+  outline: none;
+  transition: border 0.5s ease-in-out
+}
+#keyword:focus {
+  border-color : rgba(81, 203, 238, 1);;
+}
+#keyword-button {
+  position: absolute;
+  right: 26%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.7em;
+  color: #8DB9ED
+}
+#keyword-button:hover {
+  color: #ccc
+}
+.filter-select {
+  width: 50%;
+  list-style: none;
+  font-size: 1.1em;
+  color: rgb(105, 105, 105);
+  border: 1px solid #ccc;
+  border-top: none;
+  position: absolute;
+  left: 25%;
+  top: calc(50% + 25px);
+  max-height: calc(50% - 15px);
+  overflow-y: auto;
+  background: #fff
+}
+.filter-select-list img {
+  margin-right: 30px;
+}
+.tags {
+  font-size: 12px;
+  font-style: italic;
+  color: #c6c6c6;
+  margin-right: 10px;
+  position: relative;
+  top: -10px;
+}
+.filter-select-list:hover .tags {
+  color: #fff;
+}
+.filter-select-list {
+  cursor: pointer;
+  height: 50px;
+  padding: 5px 10px;
+}
+.artist-name {
+  display: inline-block;
+  position: absolute;
+}
+.filter-select-list:hover {
+  background:  #C0C0C0;
+  color: #fff
+}
+.list-highlight,
+.list-highlight:hover {
+  background: rgb(55, 55, 55);
+  color: #fff
+}
+@media only screen and (max-width: 768px) {
+  .filter-select,
+  #keyword {
+    width: 80%;
+  }
+  #keyword {
+    font-size: 1.3em
+  }
+  .filter-select {
+    font-size: 0.9em;
+    left: 10%;
+    top: calc(50% + 23px);
+  }
+  #keyword-button {
+    right: 11%
+  }
+}
+@media only screen and (max-width: 480px) {
+  .filter-select,
+  #keyword {
+    width: 95%;
+  }
+  .filter-select {
+    left: 2.5%;
+  }
+  #keyword-button {
+    right: 3.5%
+  }
+}
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box
+}
+
+.search-box-top {
+  position: fixed;
+  margin-top: 0;
+  z-index: 11;
+  width: 100%;
+  background: #000;
+  height: auto;
+  min-height: 60vh;
+}
+
+
+.context-dark, .bg-gray-dark, .bg-primary {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-classic a, .footer-classic a:focus, .footer-classic a:active {
+  color: #ffffff;
+}
+.nav-list li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.nav-list li a:hover:before {
+  margin-left: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 23px;
+  font: 900 13px/1 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.social-container .col {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-list li a:before {
+  content: "\f14f";
+  font: 400 21px/1 "Material Design Icons";
+  color: #4d6de6;
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: -28px;
+  margin-right: 7px;
+  opacity: 0;
+  visibility: hidden;
+  transition: .22s ease;
+}
