@@ -240,5 +240,8 @@ export class FacadeService {
     return this.loginService.getGuestPermissionsFromLocalStorage();
   }
 
+  getGroups() {
+    return this.registrationService.getGroups();
+  }
 }
 

@@ -41,4 +41,8 @@ export class RegistrationService {
     return this.httpClient.get(this.BASE_URL + '/user/get/all');
   }
 
+  getGroups() {
+    return this.httpClient.get(this.BASE_URL + '/group/allgroups/all');
+  }
+
 }

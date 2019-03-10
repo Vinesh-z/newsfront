@@ -4,6 +4,7 @@ import { RegistrationHomeComponent } from './registration-home/registration-home
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RegistrationGuardService } from './registration-guard.service';
+import { RegistrationGroupComponent } from './registration-group/registration-group.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
   {
     path: 'roles',
     component:  RegistrationRolesComponent,
+    canActivate: [AdminRegistrationGuardService]
+  },
+  {
+    path: 'groups',
+    component:  RegistrationGroupComponent,
     canActivate: [AdminRegistrationGuardService]
   }
 ];
