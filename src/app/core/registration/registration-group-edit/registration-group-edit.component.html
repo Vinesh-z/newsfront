@@ -1,3 +1,25 @@
-<p>
-  registration-group-edit works!
-</p>
+<div class="container">
+  <div class="row" *ngIf="thisGroupLoaded">
+    <div class="alert alert-success" role="alert">
+      Edit Group
+    </div>
+  </div>
+  <div class="row" *ngIf="thisGroupLoaded">
+    <div class="col-md-12">
+      <form>
+        <div class="row">
+          <div class="col-md-7"><input style="width: 100%;" type="text" #groupName value="{{thisGroup.name}}"
+              placeholder="Enter the name of the group"></div>
+          <div class="col-md-5">
+
+            <button class="btn btn-primary" (click)="updateGroup(groupName.value)">Update Group</button>
+          </div>
+
+        </div>
+        <div class="row" *ngIf="wrongDetails">
+          Please enter a valid group name.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
