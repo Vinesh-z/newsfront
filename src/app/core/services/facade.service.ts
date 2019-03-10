@@ -243,5 +243,10 @@ export class FacadeService {
   getGroups() {
     return this.registrationService.getGroups();
   }
+
+  saveGroup(data){
+    return this.registrationService.saveGroup(data);
+  }
+
 }
 

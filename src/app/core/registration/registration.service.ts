@@ -45,4 +45,8 @@ export class RegistrationService {
     return this.httpClient.get(this.BASE_URL + '/group/allgroups/all');
   }
 
+  saveGroup(data) {
+    return this.httpClient.post(this.BASE_URL+'/group/new', data, POST_HEADERS);
+  }
+
 }

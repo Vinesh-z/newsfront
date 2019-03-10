@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 export class RegistrationGroupComponent implements OnInit {
 
   allGroups;
+  wrongDetails;
   allGroupsLoaded: boolean = false;
-
   constructor(private facadeService: FacadeService, private router: Router) { }
 
   ngOnInit() {
@@ -21,6 +21,33 @@ export class RegistrationGroupComponent implements OnInit {
         this.allGroupsLoaded = true;
       }
     )
+  }
+
+  editGroup(id) {
+    this.router.navigate(['/register/edit-group'], { queryParams: { id: id } });
+  }
+
+  saveGroup(data) {
+    var already = [];
+    this.allGroups.forEach(gr => {
+      if(String(gr.name).toLowerCase() === String(data).toLowerCase())
+        already.push(gr);
+    });
+    if(data.length>2 && already.length==0) {
+      var requestData = {
+        name: data
+      }
+      this.facadeService.saveGroup(requestData)
+        .subscribe(
+          res => {
+            this.wrongDetails = false;
+            this.ngOnInit();
+          }
+        )
+    }
+    else {
+      this.wrongDetails = true;
+    }
   }
 
 }

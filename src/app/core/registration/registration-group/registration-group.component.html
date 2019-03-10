@@ -1,59 +1,38 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header">
-          Featured
-        </div>
-        <div class="card-body">
-          <h4 class="card-title">Special title treatment</h4>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        </div>
+      <div class="alert alert-primary col-md-12" role="alert">
+          Add Group
       </div>
-    </div>
-    <div class="col-md-4">
+      
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+          <form>
+            <div class="row">
+                      <div class="col-md-7"><input style="width: 100%;" type="text" #groupName value="" placeholder="Enter the name of the group"></div>
+                      <div class="col-md-5">
+            
+                          <button class="btn btn-primary" (click)="saveGroup(groupName.value)">Add Group</button>
+                      </div>
+                
+            </div>
+            <div class="row" *ngIf="wrongDetails">
+              Please enter a valid group name.
+            </div>
+          </form>
+        </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let group of allGroups">
       <div class="card">
-        <div class="card-header">
-          Featured
+        <div class="card-header primary">
+          {{group.name}}
         </div>
         <div class="card-body">
-          <h4 class="card-title">Special title treatment</h4>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header">
-          Featured
-        </div>
-        <div class="card-body">
-          <h4 class="card-title">Special title treatment</h4>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header">
-          Featured
-        </div>
-        <div class="card-body">
-          <h4 class="card-title">Special title treatment</h4>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header">
-          Featured
-        </div>
-        <div class="card-body">
-          <h4 class="card-title">Special title treatment</h4>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button class="btn btn-danger" (click)="editGroup(group._id)">Modify</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+

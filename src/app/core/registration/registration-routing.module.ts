@@ -1,3 +1,4 @@
+import { RegistrationGroupEditComponent } from './registration-group-edit/registration-group-edit.component';
 import { RegistrationRolesComponent } from './registration-roles/registration-roles.component';
 import { AdminRegistrationGuardService } from './admin-registration.service';
 import { RegistrationHomeComponent } from './registration-home/registration-home.component';
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: 'groups',
     component:  RegistrationGroupComponent,
+    canActivate: [AdminRegistrationGuardService]
+  },
+  {
+    path: 'edit-group',
+    component: RegistrationGroupEditComponent,
     canActivate: [AdminRegistrationGuardService]
   }
 ];
