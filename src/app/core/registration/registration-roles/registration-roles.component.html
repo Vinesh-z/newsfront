@@ -23,11 +23,13 @@
           <tr *ngIf="user.emailId!=userData.emailId">
               <td>{{ user.emailId }}</td>
               <td>{{ user.name }}</td>
-              <td>{{ user.roleName }}</td>
+              <td>{{ user.groupName }}</td>
               <td>
                 <select name="" id="" (change)="onChange($event)">
                     <option  value="Select">Select New Role</option>
-                  <option *ngFor="let role of user.roles" [value]="[role,user.emailId]">{{role}}</option>
+                    <ng-container *ngFor="let gr of user.groups">
+                        <option *ngIf="gr._id!=user.groupId" [value]="[gr._id,user.userId]">{{gr.name}}</option>
+                    </ng-container>
                 </select>
               </td>
             </tr>

@@ -14,6 +14,7 @@ export class RegistrationGroupEditComponent implements OnInit {
   thisGroup;
   allGroups;
   groupId;
+  keys: string[];
   wrongDetails: boolean = false;
   thisGroupLoaded: boolean = false;
   ngOnInit() {
@@ -35,6 +36,7 @@ export class RegistrationGroupEditComponent implements OnInit {
         }
         else {
           this.thisGroup = this.allGroups.filter(elem => elem._id === this.groupId)[0];
+          this.keys = Object.keys(this.thisGroup);
           this.thisGroupLoaded = true;
         }
       }
@@ -55,15 +57,14 @@ export class RegistrationGroupEditComponent implements OnInit {
         name: data,
         permissions: this.thisGroup.permissions
       }
-      console.log(requestData);
-      /*
-      this.facadeService.saveGroup(requestData)
+      
+      this.facadeService.updateGroup(requestData)
         .subscribe(
           res => {
             this.wrongDetails = false;
-            this.ngOnInit();
+            this.router.navigateByUrl('/register/groups');
           }
-        )*/
+        )
     }
     else {
       this.wrongDetails = true;

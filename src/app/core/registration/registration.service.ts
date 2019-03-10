@@ -49,4 +49,12 @@ export class RegistrationService {
     return this.httpClient.post(this.BASE_URL+'/group/new', data, POST_HEADERS);
   }
 
+  updateGroup(data) {
+    return this.httpClient.post(this.BASE_URL + '/group/update/update-group', data, POST_HEADERS);
+  }
+
+  changeGroupOfUser(data) {
+    return this.httpClient.post(this.BASE_URL + '/user/change-group/user-group', data, POST_HEADERS);
+  }
+
 }

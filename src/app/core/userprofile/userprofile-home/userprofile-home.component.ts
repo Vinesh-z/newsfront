@@ -25,21 +25,35 @@ export class UserprofileHomeComponent implements OnInit {
       this.userData = this.facadeService.getUserDataFromLocalStorage();
     }
     //this.userData.createdAtParsed = moment(this.userData.createdAt).calendar();
+
     this.facadeService.findLikesByUserId(this.userData.userId).subscribe(
       res => {
         this.likes = res;
         this.facadeService.findDislikesByUserId(this.userData.userId).subscribe(
-          res2 => { this.dislikes = res2; 
+          res2 => {
+            this.dislikes = res2;
             this.facadeService.getCommentsByUserId(this.userData.userId).subscribe(
-              res3 => { this.comments = res3; this.commentsLoaded = true;
-                this.userDataLoaded = true; },
-            //  error => {}
+              res3 => {
+                this.comments = res3;
+                this.facadeService.getUsernameById(this.userData.userId).subscribe(
+                  res => {
+                    if (res.picture)
+                      this.userData.picture = res.picture;
+
+                    this.commentsLoaded = true;
+
+                    this.userDataLoaded = true;
+                  }
+                )
+
+              },
+              //  error => {}
             );
           },
-       //   error=> {}
+          //   error=> {}
         )
       },
-     // error => { }
+      // error => { }
     )
 
   }

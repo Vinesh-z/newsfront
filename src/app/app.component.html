@@ -24,6 +24,9 @@
         <li class="nav-item" *ngIf="loginService.isAdmin()">
           <a class="nav-link" routerLink="/register/roles">Assign Role</a>
         </li>
+        <li class="nav-item" *ngIf="loginService.isAdmin()">
+            <a class="nav-link" routerLink="/register/groups">Roles</a>
+          </li>
         <li class="nav-item" *ngIf="!loginService.userLoggedIn">
           <a class="nav-link" routerLink="/register">Register</a>
         </li>

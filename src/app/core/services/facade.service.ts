@@ -248,5 +248,13 @@ export class FacadeService {
     return this.registrationService.saveGroup(data);
   }
 
+  updateGroup(data) {
+    return this.registrationService.updateGroup(data);
+  }
+
+  changeGroupOfUser(data) {
+    return this.registrationService.changeGroupOfUser(data);
+  }
+
 }
 

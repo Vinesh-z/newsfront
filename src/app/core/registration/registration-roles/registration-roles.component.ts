@@ -19,19 +19,19 @@ export class RegistrationRolesComponent implements OnInit {
     this.registerSvc.getAllUsers().subscribe(
       res => {
         this.allUsers = res;
-        this.registerSvc.getRoles().subscribe(
+        this.registerSvc.getGroups().subscribe(
           data => {
             this.allCategories = data;
             this.allUsers.forEach(element => {
-              element.roles = this.allCategories.filter(role => role != element.roleName);
-              console.log(element.roles);
+              element.groups = this.allCategories.filter(gr => gr._id != element.groupId);
+              element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
             });
             this.allUsersLoaded = true;
-          },
-          error => { console.log(error); }
+            console.log(this.allUsers);
+            this.searchSet = true;
+          }
         );
-      },
-      error => { console.log(error); }
+      }
     )
   }
 
@@ -43,39 +43,39 @@ export class RegistrationRolesComponent implements OnInit {
     this.registerSvc.getUserByEmailId(data).subscribe(
       res => {
         this.allUsers = res.body;
-        this.registerSvc.getRoles().subscribe(
+        this.registerSvc.getGroups().subscribe(
           data => {
             this.allCategories = data;
             this.allUsers.forEach(element => {
-              element.roles = this.allCategories.filter(role => role != element.roleName);
-              console.log(element.roles);
+              element.groups = this.allCategories.filter(gr => gr._id != element.groupId);
+              element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
             });
             this.allUsersLoaded = true;
             this.searchSet = true;
-          },
-          error => { console.log(error); }
+          }
+          
         );
 
-        console.log(this.allUsers);
-      },
-      error => { console.log(error); }
+      }
     )
   }
 
-  changeRole(roleName, emailId) {
+  changeRole(groupId, userId) {
     var data = {
-      roleName: roleName,
-      emailId: emailId
+      groupId: groupId,
+      userId: userId
     }
-    this.registerSvc.changeRole(data).subscribe(
-      res => { this.ngOnInit(); },
-      error => { console.log(error); }
+    console.log(data);
+    this.registerSvc.changeGroupOfUser(data).subscribe(
+      res => { this.ngOnInit(); }
     )
   }
 
   public onChange(event): void {
-    if(this.searchSet) this.searchSet = false;
-    this.changeRole(event.target.value.split(',')[0], event.target.value.split(',')[1]);
+    if (event.target.value != 'Select') {
+      if(this.searchSet) this.searchSet = false;
+      this.changeRole(event.target.value.split(',')[0], event.target.value.split(',')[1]);
+    }
   }
 
 }

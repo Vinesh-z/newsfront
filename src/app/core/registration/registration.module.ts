@@ -7,8 +7,10 @@ import { RegistrationRolesComponent } from './registration-roles/registration-ro
 import { RegistrationGroupComponent } from './registration-group/registration-group.component';
 import { RegistrationPermissionsComponent } from './registration-permissions/registration-permissions.component';
 import { RegistrationGroupEditComponent } from './registration-group-edit/registration-group-edit.component';
+import { KeysPipe } from './group-pipe.pipe';
+
 @NgModule({
-  declarations: [RegistrationHomeComponent, RegistrationRolesComponent, RegistrationGroupComponent, RegistrationPermissionsComponent, RegistrationGroupEditComponent],
+  declarations: [ KeysPipe, RegistrationHomeComponent, RegistrationRolesComponent, RegistrationGroupComponent, RegistrationPermissionsComponent, RegistrationGroupEditComponent],
   imports: [
     CommonModule,
     FormsModule,
