@@ -36,7 +36,8 @@ export class LoginHomeComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(socialPlatform + " sign in data : ", userData);
-        this.loginSvc.validateGoogle(userData).subscribe(
+        var userDataNew = { idToken: userData.idToken };
+        this.loginSvc.validateGoogle(userDataNew).subscribe(
           res => {
             console.log(res);
             this.facadeService.setUserPermissionsInLocalStorage(res.headers.get('authorization'));
