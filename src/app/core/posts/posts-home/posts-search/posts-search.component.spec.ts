@@ -148,6 +148,7 @@ const locationStub = {
 }
 class SearchServiceMock {
   searchKeySet = true;
+  searchKey = 'This post';
 }
 
 describe('PostsSearchComponent', () => {
@@ -175,6 +176,8 @@ describe('PostsSearchComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.searchKey).toBe('This post');
+    expect(component.allPostsLoaded).toBeTruthy();
   });
 
   fit('should navigate to details', () => {
