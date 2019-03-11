@@ -59,6 +59,7 @@ describe('CategoriesViewComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.allCategories).toBe(allCategories);
   });
 
   fit('should call navigate with correct params', () => {

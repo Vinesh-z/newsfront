@@ -24,7 +24,7 @@ export class RegistrationRolesComponent implements OnInit {
             this.allCategories = data;
             this.allUsers.forEach(element => {
               element.groups = this.allCategories.filter(gr => gr._id != element.groupId);
-              element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
+              //element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
             });
             this.allUsersLoaded = true;
             console.log(this.allUsers);
@@ -48,7 +48,7 @@ export class RegistrationRolesComponent implements OnInit {
             this.allCategories = data;
             this.allUsers.forEach(element => {
               element.groups = this.allCategories.filter(gr => gr._id != element.groupId);
-              element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
+              //element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
             });
             this.allUsersLoaded = true;
             this.searchSet = true;

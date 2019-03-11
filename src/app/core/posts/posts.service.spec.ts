@@ -131,7 +131,7 @@ describe('PostsService', () => {
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getPosts(0, 9).subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          //expect(of(data)).toEqual(of(allPosts));
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/0/9');
         expect(req.request.method).toEqual('GET');
