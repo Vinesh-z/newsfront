@@ -16,6 +16,7 @@ import { LoginService } from '../login.service';
   styleUrls: ['./login-home.component.css']
 })
 export class LoginHomeComponent implements OnInit {
+  googleLoggedIn;
   passNotMatching: boolean = false;
   formSubmitted: boolean = false;
   formSubmittedPass: boolean = false;
@@ -35,27 +36,17 @@ export class LoginHomeComponent implements OnInit {
 
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        console.log(socialPlatform + " sign in data : ", userData);
         var userDataNew = { idToken: userData.idToken };
         this.loginSvc.validateGoogle(userDataNew).subscribe(
           res => {
-            console.log(res);
             this.facadeService.setUserPermissionsInLocalStorage(res.headers.get('authorization'));
-            console.log(this.facadeService.getUserPermissionsFromLocalStorage());
-            if (this.facadeService.getUserPermissionsFromLocalStorage()) {
               this.facadeService.setUserDataInLocalStorage(res.body);
-              console.log(this.facadeService.getUserDataFromLocalStorage());
               var oldDateObj = new Date();
               var newDateObj = new Date();
               newDateObj.setTime(oldDateObj.getTime() + (60 * 60 * 1000));
               localStorage.setItem("expiryTime", String(newDateObj));
+              this.googleLoggedIn = res.body;
               this.router.navigateByUrl('/');
-            }
-            else {
-              this.wrongDetails = true;
-            }
-
-
           },
           //err => { console.log(err); }
         )

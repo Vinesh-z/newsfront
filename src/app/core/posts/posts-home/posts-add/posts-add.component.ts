@@ -32,7 +32,7 @@ export class PostsAddComponent implements OnInit {
   allCategoriesLoaded: boolean = false;
   constructor(private loginService: LoginService, private changeDetector: ChangeDetectorRef, private location: Location, private router: Router, private facadeService: FacadeService) { }
   noFileSelected: boolean = false;
-
+  errorOccurred: boolean = false;
 
 
   public options: Object = {
@@ -172,12 +172,12 @@ export class PostsAddComponent implements OnInit {
                 response => {
                   this.router.navigateByUrl('/');
                 },
-                //err => {
-                //  console.log(err);
-                //}
+                err => {
+                  this.errorOccurred = true;
+                }
               );
             },
-           // error => { console.log(error); }
+            error => { this.errorOccurred = true; }
           )
         }
       }

@@ -122,6 +122,8 @@ describe('PostsAddComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.allCategoriesLoaded).toBeTruthy();
+    expect(component.addPostForm).toBeDefined();
   });
 
 
@@ -139,6 +141,7 @@ describe('PostsAddComponent', () => {
       postContent: ''
     });
     component.onAddPost();
+    expect(component.detailsCorrectlyFilled).toBeFalsy();
     var gg: BlobPart[] = [];
     component.selectedFile = new File(gg, 'ss');
     component.addPostForm.patchValue({
@@ -148,7 +151,15 @@ describe('PostsAddComponent', () => {
       postContent: 'abcd efgh ijkl mnop qrst uvwx yzab'
     });
     component.onAddPost();
-    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
+    spyOn(MockedFacadeService.prototype,'saveImage').and.callFake(()=>{return throwError('Error')});
+    component.onAddPost();
+    expect(component.errorOccurred).toBeTruthy();
+    component.errorOccurred = false;
+    spyOn(MockedFacadeService.prototype,'savePost').and.callFake(()=>{return throwError('Error')});
+    component.onAddPost();
+    expect(component.errorOccurred).toBeTruthy();
+    
 
   });
 

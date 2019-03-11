@@ -26,7 +26,7 @@ const locationStub = {
 }
 
 class MockRouter {
-  navigateByUrl(url: string) { return url; }
+  navigateByUrl = jasmine.createSpy('navigateByUrl');
   navigate = jasmine.createSpy('navigate');
 
 }
@@ -71,6 +71,44 @@ var res = {
     }
   },
   "expiry": "1h"
+}
+
+var resGoogle = {
+  headers: new HttpHeaders({
+    'authorization': 'ssss'
+  }),
+  body: {
+    "res": "authenticated",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElkIjoic3NAc3MuY29tIiwidXNlcklkIjoiNWM3ZWMyYWQ4ZTQwNmU1MTIwY2I3OGEwIiwicGVybWlzc2lvbnMiOnsiY29tbWVudHMiOnsiY3JlYXRlIjp0cnVlLCJyZWFkIjp0cnVlLCJ1cGRhdGUiOnRydWUsImRlbGV0ZUFueSI6dHJ1ZSwiZGVsZXRlIjp0cnVlfSwicG9zdCI6eyJjcmVhdGUiOnRydWUsInJlYWQiOnRydWUsInVwZGF0ZSI6dHJ1ZSwiZGVsZXRlIjp0cnVlLCJsaWtlIjp0cnVlLCJkaXNsaWtlIjp0cnVlfSwiY2F0ZWdvcnkiOnsiY3JlYXRlIjp0cnVlLCJyZWFkIjp0cnVlLCJ1cGRhdGUiOnRydWUsImRlbGV0ZSI6dHJ1ZX19LCJpYXQiOjE1NTE5ODc0MjUsImV4cCI6MTU1MTk5MTAyNX0.yl0tDwAZXJAoicoTNmA5LKsGg8ZqBn-Z0fJsgRqAdS4",
+    "userId": "5c7ec2ad8e406e5120cb78a0",
+    "username": "sss",
+    "emailId": "ss@ss.com",
+    "permissions": {
+      "comments": {
+        "create": true,
+        "read": true,
+        "update": true,
+        "deleteAny": true,
+        "delete": true
+      },
+      "post": {
+        "create": true,
+        "read": true,
+        "update": true,
+        "delete": true,
+        "like": true,
+        "dislike": true
+      },
+      "category": {
+        "create": true,
+        "read": true,
+        "update": true,
+        "delete": true
+      }
+    },
+    "expiry": "1h"
+  }
+  
 }
 
 class MockedFacadeService {
@@ -185,7 +223,7 @@ class AuthServiceMock {
 
 class LoginServiceMock {
   validateGoogle() {
-    return of(res);
+    return of(resGoogle);
   }
 }
 
@@ -198,7 +236,7 @@ describe('LoginHomeComponent', () => {
       imports: [RouterTestingModule, HttpClientModule, ReactiveFormsModule, FormsModule],
       declarations: [LoginHomeComponent],
       providers: [{ provide: FacadeService, useClass: MockedFacadeService },
-      { provide: Router, useClass: MockRouter }, { provide: AuthService, useClass: AuthServiceMock }, { provide: Router, useClass: MockRouter }, {
+      { provide: Router, useClass: MockRouter }, { provide: AuthService, useClass: AuthServiceMock },  {
         provide: ActivatedRoute,
         useClass: ActivatedRouteMock
       }, {
@@ -221,13 +259,15 @@ describe('LoginHomeComponent', () => {
   fit('should create', () => {
 
     expect(component).toBeTruthy();
+    expect(component.loginForm.value.emailId).toBeNull();
+    expect(component.loginForm.value.password).toBeNull();
     component.loginForm.value.emailId = 'soumyargha.sinha2@ssssss.com';
-    console.log('hahahahass' + component.loginForm.get('emailId'));
     component.loginForm.value.password = 'ssss';
   });
 
   fit('should google login', () => {
     component.socialSignIn('google');
+    //expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   });
 
 
@@ -242,6 +282,7 @@ describe('LoginHomeComponent', () => {
       password: 'ssss',
     });
     component.onLogin();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   });
 
 
@@ -329,11 +370,15 @@ describe('LoginHomeComponent', () => {
       password: '',
     });
     component.onLogin();
+    expect(component.detailsCorrectlyFilled).toBeFalsy();
+    spyOn(FacadeService.prototype,'loginUser').and.callFake(()=>{return throwError('Error')});
     component.loginForm.patchValue({
       emailId: 'ss@ss.com',
       password: 'ssss',
     });
     component.onLogin();
+    expect(component.wrongDetails).toBeTruthy();
+
   });
 
 
