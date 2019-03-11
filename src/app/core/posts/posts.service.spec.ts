@@ -1,17 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { PostsService } from './posts.service';
 var like = {
   "_id" : "5c73d3dccd57dd4190a312f1",
-  "postId" : "5c73d338cd57dd4190a312ee",
+  "postId" : "5c7d62cc213e25232864dbe4",
   "userId" : "5c5729804cc4fa425c8e7b10",
   "__v" : 0
 };
-
 var dislike = {
   "_id" : "5c73d3dccd57dd4190a312f1",
-  "postId" : "5c73d338cd57dd4190a312ee",
+  "postId" : "5c7d62cc213e25232864dbe4",
   "userId" : "5c5729804cc4fa425c8e7b10",
   "__v" : 0
 };
@@ -125,124 +125,125 @@ describe('PostsService', () => {
   fit('should be created', () => {
     const service: PostsService = TestBed.get(PostsService);
     expect(service).toBeTruthy();
+    expect(service.BASE_URL).toBe(environment.BASE_URL);
   });
 
-  fit('expects service to fetch data with proper sorting',
+  fit('expects service to fetch all posts',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getPosts(0, 9).subscribe(data => {
-          //expect(of(data)).toEqual(of(allPosts));
+          expect(data).toEqual(allPosts);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/0/9');
         expect(req.request.method).toEqual('GET');
-        req.flush(of(allPosts));
+        req.flush(allPosts);
       })
   );
 
-  fit('expects service to fetch data with proper sortingtwo',
+  fit('expects service to fetch all top posts',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getTopPosts().subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          expect(data).toEqual(allPosts);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/top');
         expect(req.request.method).toEqual('GET');
-        req.flush(of(allPosts));
+        req.flush(allPosts);
       })
   );
 
-  fit('expects service to fetch data with proper sorting2',
+  fit('expects service to fetch post by id',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getPostById('5c7d62cc213e25232864dbe4').subscribe(data => {
-          //expect(data).toBe(of(allCategories[0]));
+          expect(data).toBe(allPosts[0]);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/5c7d62cc213e25232864dbe4');
         expect(req.request.method).toEqual('GET');
-        req.flush(of(post));
+        req.flush(allPosts[0]);
       })
   );
 
-  fit('expects service to fetch data with proper sorting2',
+  fit('expects service to fetch post by category id',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getPostsByCategoryId(post.categoryId,1,9).subscribe(data => {
-          //expect(data).toBe(of(allCategories[0]));
+          expect(data).toBe(allPosts[0]);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/category/'+post.categoryId+'/1/9');
         expect(req.request.method).toEqual('GET');
-        req.flush(of(post));
+        req.flush(allPosts[0]);
       })
   );
 
-  fit('expects service to fetch data with proper sortingtwo',
+  fit('expects service to get top post images',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getTopPostsImages(post).subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          expect(data.body).toEqual(allPosts);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/img');
         expect(req.request.method).toEqual('POST');
-        req.flush(of(allPosts));
+        req.flush(allPosts);
       })
   );
 
-  fit('expects service to fetch data with proper sortingtwo',
+  fit('expects service to SEARCH DATA',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.searchPosts(post.title).subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          expect(data.body).toEqual(allPosts);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/new/search');
         expect(req.request.method).toEqual('POST');
-        req.flush(of(allPosts));
+        req.flush(allPosts);
       })
   );
 
-  fit('expects service to fetch data with proper sortingtwo',
+  fit('expects service to getRelatedPosts',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getRelatedPosts(post.title).subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          expect(data.body).toEqual(allPosts);
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/related');
         expect(req.request.method).toEqual('POST');
-        req.flush(of(allPosts));
+        req.flush(allPosts);
       })
   );
 
-  fit('expects service to fetch data with proper sortingtwo',
+  fit('expects service to getCountOfPosts',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getCountOfPosts().subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          expect(data).toEqual({ count: 1 });
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/count');
         expect(req.request.method).toEqual('GET');
-        req.flush(of({ count: 1 }));
+        req.flush({ count: 1 });
       })
   );
 
-  fit('expects service to fetch data with proper sortingtwo',
+  fit('expects service to getCountOfPostsByCategoryId',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
         service.getCountOfPostsByCategoryId(post._id).subscribe(data => {
-          //expect(of(data)).toEqual(of(allCategories));
+          expect(data).toEqual({ count: 1 });
         });
         const req = httpMock.expectOne('http://localhost:3000/posts/count/category/'+post._id);
         expect(req.request.method).toEqual('GET');
-        req.flush(of({ count: 1 }));
+        req.flush({ count: 1 });
       })
   );
   fit('saves a post',
   inject([HttpTestingController, PostsService],
     (httpMock: HttpTestingController, service: PostsService) => {
       service.savePost(post).subscribe(data => {
-        //expect(data).toBe(of(allCategories[0]));
+        expect(data.body).toBe(post);
       });
       const req = httpMock.expectOne('http://localhost:3000/posts/new');
       expect(req.request.method).toEqual('POST');
-      req.flush(of(post));
+      req.flush(post);
     })
 );
 fit('saves an image',
@@ -250,158 +251,130 @@ inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
     service.saveImage(data,post._id).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      //expect(data).toBe(post);
     });
     const req = httpMock.expectOne('http://localhost:3000/posts/image/'+post._id);
     expect(req.request.method).toEqual('POST');
-    req.flush(of(post));
+    req.flush(post);
   })
 );
 fit('updates a post',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
     service.updatePost(post._id, post).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data).toBe(post);
     });
     const req = httpMock.expectOne('http://localhost:3000/posts/update/'+post._id);
     expect(req.request.method).toEqual('PUT');
-    req.flush(of(post));
+    req.flush(post);
   })
 );
-fit('updates a post',
+fit('deletes a post',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
     service.deletePost(post._id).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data).toBe(post);
     });
     const req = httpMock.expectOne('http://localhost:3000/posts/delete/'+post._id);
     expect(req.request.method).toEqual('DELETE');
-    req.flush(of(post));
+    req.flush(post);
   })
 );
-fit('updates a post',
+fit('findLikesByPostId',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
     service.findLikesByPostId(post._id).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data[0]).toBe([like][0]);
     });
     const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/'+post._id);
     expect(req.request.method).toEqual('GET');
-    req.flush(of(post));
+    req.flush([like]);
   })
 );
-fit('updates a post',
+fit('findDislikesByPostId',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
     service.findDislikesByPostId(post._id).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data[0]).toBe([dislike][0]);
     });
     const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/'+post._id);
     expect(req.request.method).toEqual('GET');
-    req.flush(of(post));
+    req.flush([dislike]);
   })
 );
-fit('updates a post',
+fit('findLikeByPostIdAndUserId',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
-    service.findLikeByPostIdAndUserId(post._id, '123').subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+    service.findLikeByPostIdAndUserId(post._id, like.userId).subscribe(data => {
+      expect(data).toBe(like);
     });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/'+post._id+'/user/123');
+    const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/'+post._id+'/user/'+like.userId);
     expect(req.request.method).toEqual('GET');
-    req.flush(of(post));
+    req.flush(like);
   })
 );
-fit('updates a post',
+fit('findDislikeByPostIdAndUserId',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
-    service.findDislikeByPostIdAndUserId(post._id, '123').subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+    service.findDislikeByPostIdAndUserId(post._id, dislike.userId).subscribe(data => {
+      expect(data).toBe(dislike);
     });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/'+post._id+'/user/123');
+    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/'+post._id+'/user/'+dislike.userId);
     expect(req.request.method).toEqual('GET');
-    req.flush(of(post));
+    req.flush(dislike);
   })
 );
-fit('updates a post',
+fit('findDislikesByUserId',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
-    service.findDislikesByUserId('123').subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+    service.findDislikesByUserId(like.userId).subscribe(data => {
+      expect(data[0]).toBe([dislike][0]);
     });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/user/123');
+    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/user/'+like.userId);
     expect(req.request.method).toEqual('GET');
-    req.flush(of(post));
+    req.flush([dislike]);
   })
 );
-fit('updates a post',
+fit('findLikesByUserId',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
     service.findLikesByUserId('123').subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data[0]).toBe([like][0]);
     });
     const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/user/123');
     expect(req.request.method).toEqual('GET');
-    req.flush(of(post));
+    req.flush([like]);
   })
 );
-fit('updates a post',
+fit('saveLike',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
     service.saveLike(like).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data.body).toBe(like);
     });
     const req = httpMock.expectOne('http://localhost:3000/reactions/likes/new');
     expect(req.request.method).toEqual('POST');
-    req.flush(of(post));
+    req.flush(like);
   })
 );
-fit('updates a post',
+fit('saves dislike',
 inject([HttpTestingController, PostsService],
   (httpMock: HttpTestingController, service: PostsService) => {
     var data = new FormData();
     service.saveDislike(dislike).subscribe(data => {
-      //expect(data).toBe(of(allCategories[0]));
+      expect(data.body).toBe(dislike);
     });
     const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/new');
     expect(req.request.method).toEqual('POST');
-    req.flush(of(post));
+    req.flush(dislike);
   })
 );
 
-
-  /*
-    fit('saves a category',
-      inject([HttpTestingController, CategoriesService],
-        (httpMock: HttpTestingController, service: CategoriesService) => {
-          service.saveCategory(cat).subscribe(data => {
-            //expect(data).toBe(of(allCategories[0]));
-          });
-          const req = httpMock.expectOne('http://localhost:3000/categories/new');
-          expect(req.request.method).toEqual('POST');
-          req.flush(of(cat));
-        })
-    );
-  
-    fit('updates a category',
-    inject([HttpTestingController, CategoriesService],
-      (httpMock: HttpTestingController, service: CategoriesService) => {
-        service.updateCategory(cat._id, cat).subscribe(data => {
-          //expect(data).toBe(of(allCategories[0]));
-        });
-        const req = httpMock.expectOne('http://localhost:3000/categories/'+cat._id+'/update');
-        expect(req.request.method).toEqual('PUT');
-        req.flush(of(cat));
-      })
-  );
-  */
 });

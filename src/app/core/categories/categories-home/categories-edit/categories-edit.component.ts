@@ -14,22 +14,29 @@ import { ActivatedRoute } from '@angular/router';
 export class CategoriesEditComponent implements OnInit {
   addCategoryForm: FormGroup;
 
+  wrongDetails = false;
   thisCategory;
   thisCategoryLoaded: boolean = false;
-
+  thisCategoryId;
   constructor(private location: Location, private router: Router, private route: ActivatedRoute, private facadeService: FacadeService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(
       params => {
-        console.log(params.id);
-        this.facadeService.getCategoryById(params.id).subscribe(
-          res => { console.log(res);this.thisCategory = res; this.thisCategoryLoaded = true; },
-          error => {  this.router.navigateByUrl('/categories'); }
+        this.thisCategoryId = params.id;
+        if(!this.thisCategoryId)
+          this.router.navigateByUrl('/categories');
+        this.facadeService.getCategoryById(this.thisCategoryId).subscribe(
+          res => {
+            this.thisCategory = res;
+            this.thisCategoryLoaded = true;
+          },
+          error => {
+            this.router.navigateByUrl('/categories');
+          }
         )
       }
     )
-
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, [
         Validators.required,
@@ -41,12 +48,15 @@ export class CategoriesEditComponent implements OnInit {
 
   onAddCategory() {
     if (this.addCategoryForm.value.categoryName.length > 1) {
+      if(this.wrongDetails) {
+        this.wrongDetails = false;
+      }
       const requestData = {
         name: this.addCategoryForm.value.categoryName,
       };
       this.facadeService.updateCategory(this.thisCategory._id, requestData).subscribe(
         res => { this.router.navigateByUrl('/categories'); },
-        //error => { console.log(error); }
+        error => { this.wrongDetails = true; }
       )
     }
 

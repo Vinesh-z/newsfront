@@ -12,5 +12,7 @@ describe('KeysPipe', () => {
       two: false
     }});
     expect(pipe.transform).toBe([ 'perm' ]);
+    pipe.transform(false);
+    expect(pipe.transform(false)).toBeNull();
   });
 });

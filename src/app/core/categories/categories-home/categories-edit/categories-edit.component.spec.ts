@@ -21,7 +21,7 @@ export const LOCATION_TOKEN = new InjectionToken<Location>('Window location obje
 
 
 class MockRouter {
-  navigateByUrl(url: string) { return url; }
+  navigateByUrl = jasmine.createSpy('navigateByUrl')
   navigate = jasmine.createSpy('navigate');
 
 }
@@ -71,6 +71,16 @@ class ActivatedRouteMock {
   });
 }
 
+class ActivatedRouteMockTwo {
+  queryParams = new Observable(observer => {
+    const urlParams = {
+      notId: '5c7d5fde213e25232864dbe0'
+    }
+    observer.next(urlParams);
+    observer.complete();
+  });
+}
+
 const locationStub = {
   back: jasmine.createSpy('back')
 }
@@ -100,18 +110,27 @@ describe('CategoriesEditComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.thisCategoryId).toBe('5c7d5fde213e25232864dbe0');
+    expect(component.thisCategory).toBe(cat);
+    expect(component.thisCategoryLoaded).toBeTruthy();
+    spyOn(MockedFacadeService.prototype,'getCategoryById').and.callFake(()=>{return throwError('Error')});
+    component.ngOnInit();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/categories');
   });
 
-  TestBed.overrideProvider(FacadeService, { useValue: new MockedFacadeServiceForError() });
-  fit('should create', () => {
-    expect(component).toBeTruthy();
-
-  });
+ 
 
   fit('should update a category', () => {
     component.addCategoryForm.value.categoryName = 'Politics New';
+    component.wrongDetails = true;
     component.onAddCategory();
-
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/categories');
+    spyOn(MockedFacadeService.prototype,'updateCategory').and.callFake(()=>{return throwError('Error')});
+    component.onAddCategory();
+    expect(component.wrongDetails).toBeTruthy();
+    component.addCategoryForm.value.categoryName = '';
+    component.onAddCategory();
+    expect(component.addCategoryForm.get('categoryName').invalid).toBeTruthy();    
   })
 
   fit('should be clicked', () => {
@@ -133,7 +152,7 @@ describe('CategoriesEditComponent', () => {
       providers: [{ provide: FacadeService, useClass: MockedFacadeServiceForError },
       { provide: Router, useClass: MockRouter }, { provide: Router, useClass: MockRouter }, {
         provide: ActivatedRoute,
-        useClass: ActivatedRouteMock
+        useClass: ActivatedRouteMockTwo
       }, {provide: Location, useValue: locationStub}]
     })
       .compileComponents();

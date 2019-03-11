@@ -8,11 +8,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 class FacadeMock {
   getUserDataFromLocalStorage() {
-    return { permissions: {
-      category: {
-        create: false
+    return {
+      permissions: {
+        category: {
+          create: false
+        }
       }
-    }}
+    }
   }
 }
 class FacadeMockTwo {
@@ -43,9 +45,9 @@ class MockRouter {
 describe('CategoryGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [RouterTestingModule],
-    providers: [{provide: LoginService, useClass: LoginMock},
-  {provide: FacadeService, useClass: FacadeMock} ,
-{provide: Router, useClass: MockRouter}]
+    providers: [{ provide: LoginService, useClass: LoginMock },
+    { provide: FacadeService, useClass: FacadeMock },
+    { provide: Router, useClass: MockRouter }]
   }));
 
   fit('should be created', () => {
@@ -57,16 +59,16 @@ describe('CategoryGuardService', () => {
   fit('can activate test', () => {
     const service: CategoryGuardService = TestBed.get(CategoryGuardService);
     service.canActivate();
-    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   })
-}); 
+});
 
 describe('CategoryGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [RouterTestingModule],
-    providers: [{provide: LoginService, useClass: LoginMock},
-  {provide: FacadeService, useClass: FacadeMock} ,
-{provide: Router, useClass: MockRouter}]
+    providers: [{ provide: LoginService, useClass: LoginMockTwo },
+    { provide: FacadeService, useClass: FacadeMock },
+    { provide: Router, useClass: MockRouter }]
   }));
 
   fit('should be created', () => {
@@ -78,16 +80,16 @@ describe('CategoryGuardService', () => {
   fit('can activate test', () => {
     const service: CategoryGuardService = TestBed.get(CategoryGuardService);
     service.canActivate();
-    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   })
-}); 
+});
 
 describe('CategoryGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [RouterTestingModule],
-    providers: [{provide: LoginService, useClass: LoginMockTwo},
-  {provide: FacadeService, useClass: FacadeMock} ,
-{provide: Router, useClass: MockRouter}]
+    providers: [{ provide: LoginService, useClass: LoginMockTwo },
+    { provide: FacadeService, useClass: FacadeMockTwo },
+    { provide: Router, useClass: MockRouter }]
   }));
 
   fit('should be created', () => {
@@ -99,13 +101,12 @@ describe('CategoryGuardService', () => {
   fit('can activate test', () => {
     const service: CategoryGuardService = TestBed.get(CategoryGuardService);
     service.canActivate();
-    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
+    expect(service.canActivate()).toBeTruthy();
   })
 
   fit('can activate test', () => {
     const service: CategoryGuardService = TestBed.get(CategoryGuardService);
     service.canActivate();
-    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
   })
-}); 
+});
 

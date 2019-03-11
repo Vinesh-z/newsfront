@@ -119,6 +119,9 @@ describe('CategoriesAddComponent', () => {
     spyOn(MockedFacadeService.prototype,'saveCategory').and.callFake(()=>{return throwError('Error')});
     component.onAddCategory();
     expect(component.wrongDetails).toBeTruthy();
+    component.addCategoryForm.value.categoryName = '';
+    component.onAddCategory();
+    expect(component.addCategoryForm.get('categoryName').invalid).toBeTruthy();    
   })
 
   fit('should be clicked', () => {
