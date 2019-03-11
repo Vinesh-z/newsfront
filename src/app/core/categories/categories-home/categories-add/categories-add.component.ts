@@ -13,7 +13,7 @@ import { FormGroupDirective, NgForm } from '@angular/forms';
 export class CategoriesAddComponent implements OnInit {
 
   addCategoryForm: FormGroup;
-
+  wrongDetails = false;
   constructor(private location: Location, private router: Router, private facadeService: FacadeService) { }
 
   ngOnInit() {
@@ -28,14 +28,16 @@ export class CategoriesAddComponent implements OnInit {
 
   onAddCategory() {
     if (this.addCategoryForm.value.categoryName.length > 1) {
+      if(this.wrongDetails) {
+        this.wrongDetails = false;
+      }
       const requestData = {
         name: this.addCategoryForm.value.categoryName,
       };
       this.facadeService.saveCategory(requestData).subscribe(
         res => { this.router.navigateByUrl('/categories'); },
-       // error => { console.log(error); }
+        error => { this.wrongDetails = true; }
       )
-      console.log(requestData);
     }
   }
 

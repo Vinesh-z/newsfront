@@ -32,7 +32,7 @@ const locationStub = {
 }
 
 class MockRouter {
-  navigateByUrl(url: string) { return url; }
+  navigateByUrl = jasmine.createSpy('navigateByUrl');
   navigate = jasmine.createSpy('navigate');
 
 }
@@ -108,12 +108,17 @@ describe('CategoriesAddComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.addCategoryForm.value.categoryName).toBeNull();
   });
 
   fit('should add a category', () => {
     component.addCategoryForm.value.categoryName = 'Politics New';
+    component.wrongDetails = true;
     component.onAddCategory();
-
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/categories');
+    spyOn(MockedFacadeService.prototype,'saveCategory').and.callFake(()=>{return throwError('Error')});
+    component.onAddCategory();
+    expect(component.wrongDetails).toBeTruthy();
   })
 
   fit('should be clicked', () => {

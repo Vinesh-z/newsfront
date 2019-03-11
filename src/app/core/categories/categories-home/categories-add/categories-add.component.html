@@ -20,7 +20,7 @@
               </div>
 
             </div>
-            <div *ngIf="addCategoryForm.get('categoryName').hasError('required')">
+            <div *ngIf="addCategoryForm.get('categoryName').hasError('required') || wrongDetails">
               <div class="alert alert-warning" role="alert">
                 Category name is <strong>required</strong>
               </div>

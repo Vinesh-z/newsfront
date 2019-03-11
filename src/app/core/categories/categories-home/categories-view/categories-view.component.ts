@@ -29,9 +29,9 @@ export class CategoriesViewComponent implements OnInit {
         this.allCategories = res;
         this.allCategoriesLoaded = true;
       },
-     // error => { 
-     //   console.log(error);
-     // }
+      error => { 
+        this.router.navigateByUrl('/');
+      }
     )
   }
 
