@@ -214,7 +214,6 @@ describe('PostsEditComponent', () => {
     });
     component.onAddPost();
     expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
-
   });
 });
 
