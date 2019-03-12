@@ -19,7 +19,14 @@ describe('DialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  fit('should close dialog', () => {
+    component.close();
+    expect(component.visible).toBeFalsy();
+  });
+
+  
 });

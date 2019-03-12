@@ -24,11 +24,10 @@ export class RegistrationRolesComponent implements OnInit {
             this.allCategories = data;
             this.allUsers.forEach(element => {
               element.groups = this.allCategories.filter(gr => gr._id != element.groupId);
-              //element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
+              element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
             });
             this.allUsersLoaded = true;
-            console.log(this.allUsers);
-            this.searchSet = true;
+            this.searchSet = false;
           }
         );
       }
@@ -48,7 +47,7 @@ export class RegistrationRolesComponent implements OnInit {
             this.allCategories = data;
             this.allUsers.forEach(element => {
               element.groups = this.allCategories.filter(gr => gr._id != element.groupId);
-              //element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
+              element.groupName = this.allCategories.filter(gr => gr._id === element.groupId)[0].name;
             });
             this.allUsersLoaded = true;
             this.searchSet = true;
@@ -65,7 +64,6 @@ export class RegistrationRolesComponent implements OnInit {
       groupId: groupId,
       userId: userId
     }
-    console.log(data);
     this.registerSvc.changeGroupOfUser(data).subscribe(
       res => { this.ngOnInit(); }
     )

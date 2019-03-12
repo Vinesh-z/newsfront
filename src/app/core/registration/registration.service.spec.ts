@@ -126,7 +126,69 @@ describe('RegistrationService', () => {
       })
   );
 
- 
+  fit('expects service to save group',
+    inject([HttpTestingController, RegistrationService],
+      (httpMock: HttpTestingController, service: RegistrationService) => {
+        service.saveGroup(group).subscribe(data => {
+          expect(data.body).toEqual(group);
+        });
+        const req = httpMock.expectOne('http://localhost:3001/group/new');
+        expect(req.request.method).toEqual('POST');
+        req.flush(group);
+      })
+  );
+
+  fit('expects service to update group',
+    inject([HttpTestingController, RegistrationService],
+      (httpMock: HttpTestingController, service: RegistrationService) => {
+        service.updateGroup(group).subscribe(data => {
+          expect(data.body).toEqual(group);
+        });
+        const req = httpMock.expectOne('http://localhost:3001/group/update/update-group');
+        expect(req.request.method).toEqual('POST');
+        req.flush(group);
+      })
+  );
+
+  fit('expects service to update group',
+    inject([HttpTestingController, RegistrationService],
+      (httpMock: HttpTestingController, service: RegistrationService) => {
+        var data = {
+          groupId: '123',
+          userId: '123'
+        }
+        service.changeGroupOfUser(data).subscribe(data => {
+          expect(data.body).toEqual(user);
+        });
+        const req = httpMock.expectOne('http://localhost:3001/user/change-group/user-group');
+        expect(req.request.method).toEqual('POST');
+        req.flush(user);
+      })
+  );
+
+  fit('expects service to fetch all groups',
+  inject([HttpTestingController, RegistrationService],
+    (httpMock: HttpTestingController, service: RegistrationService) => {
+      service.getAllUsers().subscribe(data => {
+        expect(data).toEqual([user]);
+      });
+      const req = httpMock.expectOne('http://localhost:3001/user/get/all');
+      expect(req.request.method).toEqual('GET');
+      req.flush([user]);
+    })
+);
+
+fit('expects service to fetch user by email id',
+inject([HttpTestingController, RegistrationService],
+  (httpMock: HttpTestingController, service: RegistrationService) => {
+    service.getUserByEmailId('aa@ffff.com').subscribe(data => {
+      expect(data.body).toEqual(user);
+    });
+    const req = httpMock.expectOne('http://localhost:3001/user/email');
+    expect(req.request.method).toEqual('POST');
+    req.flush(user);
+  })
+);
 
 
 });

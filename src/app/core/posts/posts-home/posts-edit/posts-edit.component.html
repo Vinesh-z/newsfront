@@ -17,7 +17,7 @@
             <label for="formGroupExampleInput">News Category</label>
             <select class="form-control" id="postCategory" formControlName="postCategory">
               <option [value]="thisCategory._id" selected>{{ thisCategory.name }}</option>
-              <option *ngFor="let category of allCategories" [value]="category._id">{{ category.name }}</option>
+              <option *ngFor="let category of allCategories | async" [value]="category._id">{{ category.name }}</option>
             </select>
 
             <label for="formGroupExampleInput">Post Title</label>

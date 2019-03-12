@@ -30,9 +30,6 @@ export class LoginService {
       this.userLoggedIn = false;
       return "{ \"loggedOut\": true }";
     }
-    else {
-      return "{ \"loggedOut\": false }";
-    }
   }
 
   setUserDataInLocalStorage(res) {

@@ -53,42 +53,20 @@ this.sub = this.dataService.getQuotes()
       this.loginService.sessionTimedOut = false;
       this.sessionTimedOut = true;
     }
-
-  
-    
-    /*
-        var mom = moment();
-        console.log(mom);
-        var mom2 = mom.add(2, 'hours');
-        console.log(mom2);
-        console.log(mom.isBefore(mom2));
-        var mom = moment();
-        var newDateObj = moment(mom).add(60, 'm');
-        */
-
-
-
-
     if (this.facadeService.getUserDataFromLocalStorage()) {
       this.userData = this.facadeService.getUserDataFromLocalStorage();
       this.loginService.userLoggedIn = true;
       this.userLoggedIn = true;
       this.facadeService.resetGuestPermissions();
-      //console.log(this.facadeService.getUserDataFromLocalStorage());
-     // console.log('haha');
       this.inited = true;
-     // console.log(this.inited);
     }
     else {
-      //console.log('haha123 no data');
       this.facadeService.fetchGuestPermissions().subscribe(
         res => { this.facadeService.setGuestPermissions(res); 
-          //console.log(this.facadeService.getGuestPermissionsFromLocalStorage()); 
         },
         error => { console.log(error); }
       )
     }
-    
   }
 
   logout() {
@@ -99,14 +77,12 @@ this.sub = this.dataService.getQuotes()
         this.facadeService.fetchGuestPermissions().subscribe(
           res => {
             this.facadeService.setGuestPermissions(res); 
-            //console.log(this.facadeService.getGuestPermissionsFromLocalStorage());
             this.router.navigateByUrl('/');
           },
           error => { console.log(error); }
         )
       }
       else {
-        // redirect to logout failed page
       }
 
     }

@@ -4,16 +4,16 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PostsService } from './posts.service';
 var like = {
-  "_id" : "5c73d3dccd57dd4190a312f1",
-  "postId" : "5c7d62cc213e25232864dbe4",
-  "userId" : "5c5729804cc4fa425c8e7b10",
-  "__v" : 0
+  "_id": "5c73d3dccd57dd4190a312f1",
+  "postId": "5c7d62cc213e25232864dbe4",
+  "userId": "5c5729804cc4fa425c8e7b10",
+  "__v": 0
 };
 var dislike = {
-  "_id" : "5c73d3dccd57dd4190a312f1",
-  "postId" : "5c7d62cc213e25232864dbe4",
-  "userId" : "5c5729804cc4fa425c8e7b10",
-  "__v" : 0
+  "_id": "5c73d3dccd57dd4190a312f1",
+  "postId": "5c7d62cc213e25232864dbe4",
+  "userId": "5c5729804cc4fa425c8e7b10",
+  "__v": 0
 };
 var trendingPosts = [
   {
@@ -167,10 +167,10 @@ describe('PostsService', () => {
   fit('expects service to fetch post by category id',
     inject([HttpTestingController, PostsService],
       (httpMock: HttpTestingController, service: PostsService) => {
-        service.getPostsByCategoryId(post.categoryId,1,9).subscribe(data => {
+        service.getPostsByCategoryId(post.categoryId, 1, 9).subscribe(data => {
           expect(data).toBe(allPosts[0]);
         });
-        const req = httpMock.expectOne('http://localhost:3000/posts/category/'+post.categoryId+'/1/9');
+        const req = httpMock.expectOne('http://localhost:3000/posts/category/' + post.categoryId + '/1/9');
         expect(req.request.method).toEqual('GET');
         req.flush(allPosts[0]);
       })
@@ -230,151 +230,151 @@ describe('PostsService', () => {
         service.getCountOfPostsByCategoryId(post._id).subscribe(data => {
           expect(data).toEqual({ count: 1 });
         });
-        const req = httpMock.expectOne('http://localhost:3000/posts/count/category/'+post._id);
+        const req = httpMock.expectOne('http://localhost:3000/posts/count/category/' + post._id);
         expect(req.request.method).toEqual('GET');
         req.flush({ count: 1 });
       })
   );
   fit('saves a post',
-  inject([HttpTestingController, PostsService],
-    (httpMock: HttpTestingController, service: PostsService) => {
-      service.savePost(post).subscribe(data => {
-        expect(data.body).toBe(post);
-      });
-      const req = httpMock.expectOne('http://localhost:3000/posts/new');
-      expect(req.request.method).toEqual('POST');
-      req.flush(post);
-    })
-);
-fit('saves an image',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.saveImage(data,post._id).subscribe(data => {
-      //expect(data).toBe(post);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/posts/image/'+post._id);
-    expect(req.request.method).toEqual('POST');
-    req.flush(post);
-  })
-);
-fit('updates a post',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    service.updatePost(post._id, post).subscribe(data => {
-      expect(data).toBe(post);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/posts/update/'+post._id);
-    expect(req.request.method).toEqual('PUT');
-    req.flush(post);
-  })
-);
-fit('deletes a post',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.deletePost(post._id).subscribe(data => {
-      expect(data).toBe(post);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/posts/delete/'+post._id);
-    expect(req.request.method).toEqual('DELETE');
-    req.flush(post);
-  })
-);
-fit('findLikesByPostId',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.findLikesByPostId(post._id).subscribe(data => {
-      expect(data[0]).toBe([like][0]);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/'+post._id);
-    expect(req.request.method).toEqual('GET');
-    req.flush([like]);
-  })
-);
-fit('findDislikesByPostId',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.findDislikesByPostId(post._id).subscribe(data => {
-      expect(data[0]).toBe([dislike][0]);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/'+post._id);
-    expect(req.request.method).toEqual('GET');
-    req.flush([dislike]);
-  })
-);
-fit('findLikeByPostIdAndUserId',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.findLikeByPostIdAndUserId(post._id, like.userId).subscribe(data => {
-      expect(data).toBe(like);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/'+post._id+'/user/'+like.userId);
-    expect(req.request.method).toEqual('GET');
-    req.flush(like);
-  })
-);
-fit('findDislikeByPostIdAndUserId',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.findDislikeByPostIdAndUserId(post._id, dislike.userId).subscribe(data => {
-      expect(data).toBe(dislike);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/'+post._id+'/user/'+dislike.userId);
-    expect(req.request.method).toEqual('GET');
-    req.flush(dislike);
-  })
-);
-fit('findDislikesByUserId',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.findDislikesByUserId(like.userId).subscribe(data => {
-      expect(data[0]).toBe([dislike][0]);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/user/'+like.userId);
-    expect(req.request.method).toEqual('GET');
-    req.flush([dislike]);
-  })
-);
-fit('findLikesByUserId',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.findLikesByUserId('123').subscribe(data => {
-      expect(data[0]).toBe([like][0]);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/user/123');
-    expect(req.request.method).toEqual('GET');
-    req.flush([like]);
-  })
-);
-fit('saveLike',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    service.saveLike(like).subscribe(data => {
-      expect(data.body).toBe(like);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/likes/new');
-    expect(req.request.method).toEqual('POST');
-    req.flush(like);
-  })
-);
-fit('saves dislike',
-inject([HttpTestingController, PostsService],
-  (httpMock: HttpTestingController, service: PostsService) => {
-    var data = new FormData();
-    service.saveDislike(dislike).subscribe(data => {
-      expect(data.body).toBe(dislike);
-    });
-    const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/new');
-    expect(req.request.method).toEqual('POST');
-    req.flush(dislike);
-  })
-);
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        service.savePost(post).subscribe(data => {
+          expect(data.body).toBe(post);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/posts/new');
+        expect(req.request.method).toEqual('POST');
+        req.flush(post);
+      })
+  );
+  fit('saves an image',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.saveImage(data, post._id).subscribe(data => {
+          //expect(data).toBe(post);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/posts/image/' + post._id);
+        expect(req.request.method).toEqual('POST');
+        req.flush(post);
+      })
+  );
+  fit('updates a post',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        service.updatePost(post._id, post).subscribe(data => {
+          expect(data).toBe(post);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/posts/update/' + post._id);
+        expect(req.request.method).toEqual('PUT');
+        req.flush(post);
+      })
+  );
+  fit('deletes a post',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.deletePost(post._id).subscribe(data => {
+          expect(data).toBe(post);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/posts/delete/' + post._id);
+        expect(req.request.method).toEqual('DELETE');
+        req.flush(post);
+      })
+  );
+  fit('findLikesByPostId',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.findLikesByPostId(post._id).subscribe(data => {
+          expect(data[0]).toBe([like][0]);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/' + post._id);
+        expect(req.request.method).toEqual('GET');
+        req.flush([like]);
+      })
+  );
+  fit('findDislikesByPostId',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.findDislikesByPostId(post._id).subscribe(data => {
+          expect(data[0]).toBe([dislike][0]);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/' + post._id);
+        expect(req.request.method).toEqual('GET');
+        req.flush([dislike]);
+      })
+  );
+  fit('findLikeByPostIdAndUserId',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.findLikeByPostIdAndUserId(post._id, like.userId).subscribe(data => {
+          expect(data).toBe(like);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/' + post._id + '/user/' + like.userId);
+        expect(req.request.method).toEqual('GET');
+        req.flush(like);
+      })
+  );
+  fit('findDislikeByPostIdAndUserId',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.findDislikeByPostIdAndUserId(post._id, dislike.userId).subscribe(data => {
+          expect(data).toBe(dislike);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/' + post._id + '/user/' + dislike.userId);
+        expect(req.request.method).toEqual('GET');
+        req.flush(dislike);
+      })
+  );
+  fit('findDislikesByUserId',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.findDislikesByUserId(like.userId).subscribe(data => {
+          expect(data[0]).toBe([dislike][0]);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/post/user/' + like.userId);
+        expect(req.request.method).toEqual('GET');
+        req.flush([dislike]);
+      })
+  );
+  fit('findLikesByUserId',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.findLikesByUserId('123').subscribe(data => {
+          expect(data[0]).toBe([like][0]);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/likes/post/user/123');
+        expect(req.request.method).toEqual('GET');
+        req.flush([like]);
+      })
+  );
+  fit('saveLike',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        service.saveLike(like).subscribe(data => {
+          expect(data.body).toBe(like);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/likes/new');
+        expect(req.request.method).toEqual('POST');
+        req.flush(like);
+      })
+  );
+  fit('saves dislike',
+    inject([HttpTestingController, PostsService],
+      (httpMock: HttpTestingController, service: PostsService) => {
+        var data = new FormData();
+        service.saveDislike(dislike).subscribe(data => {
+          expect(data.body).toBe(dislike);
+        });
+        const req = httpMock.expectOne('http://localhost:3000/reactions/dislikes/new');
+        expect(req.request.method).toEqual('POST');
+        req.flush(dislike);
+      })
+  );
 
 });

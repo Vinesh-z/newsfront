@@ -182,6 +182,7 @@ describe('RegistrationHomeComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.addUserForm).toBeDefined();
   });
 
   fit('should add user', () => {
@@ -192,7 +193,7 @@ describe('RegistrationHomeComponent', () => {
       groupId: '5c59ab429b64fd14cc9ed84c'
     });
     component.onAddUser('password');
-    
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   });
 
   fit('should add user', () => {
@@ -204,11 +205,12 @@ describe('RegistrationHomeComponent', () => {
       groupId: '5c59ab429b64fd14cc9ed84c'
     });
     component.onAddUser('password');
+    expect(component.detailsCorrectlyFilled).toBeFalsy();
   });
 
   fit('should go back when clicked', () => {
     component.goBack();
-    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalled();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   });
 
 });

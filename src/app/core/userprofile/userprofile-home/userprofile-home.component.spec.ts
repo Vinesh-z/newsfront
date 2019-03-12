@@ -86,7 +86,23 @@ var comments = [
   comment
 ]
 
+var user = {
+  "_id": "5c7e4477824a29284cb32e2f",
+  "username": "Ray Norman",
+  "emailId": "raynormanemma@gmail.com",
+  "groupId": "5c85f1417af6b63c409ce138",
+  "roleName": "User",
+  "picture": "https://lh5.googleusercontent.com/-HVhGpjbIJCo/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfDgecwVx0pvlhEv4p0k_Q1TQP8KA/s96-c/photo.jpg",
+  "updatedAt": "2019-03-12T06:18:28.226Z",
+  "createdAt": "2019-03-05T09:42:15.466Z",
+  "__v": 0
+}
+
 class MockedFacadeService {
+
+  getUsernameById() {
+    return of(user);
+  }
 
   getCommentsByUserId(id) {
     return of(comments);
@@ -143,6 +159,8 @@ describe('UserprofileHomeComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.commentsLoaded).toBeTruthy();
+    expect(component.userDataLoaded).toBeTruthy();
   });
 
 });

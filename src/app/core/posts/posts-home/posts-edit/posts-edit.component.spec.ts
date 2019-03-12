@@ -11,10 +11,18 @@ import { Observable, of, throwError } from 'rxjs';
 import { LoginService } from 'src/app/core/login/login.service';
 import * as $ from 'jquery';
 import { PostsEditComponent } from './posts-edit.component';
+import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 var allCats = [
   {
     "_id": "5c7d5fde213e25232864dbe0",
     "name": "Politics",
+    "updatedAt": "2019-03-04T17:26:54.262Z",
+    "createdAt": "2019-03-04T17:26:54.262Z",
+    "__v": 0
+  },
+  {
+    "_id": "5c7d5fde213e25232864dbe6",
+    "name": "Politics New",
     "updatedAt": "2019-03-04T17:26:54.262Z",
     "createdAt": "2019-03-04T17:26:54.262Z",
     "__v": 0
@@ -172,6 +180,8 @@ describe('PostsEditComponent', () => {
     expect(component).toBeTruthy();
     expect(component.thisPostLoaded).toBeTruthy();
     expect(component.allCategoriesLoaded).toBeTruthy();
+    expect(component.thisCategory._id).toBe(allCats[0]._id);
+    expect(component.allCategories[0]._id).toBe(allCats[1]._id);
     expect(component.addPostForm.value.postTitle).toBe("Call for apology after PM ‘joke’");
     spyOn(MockedFacadeService.prototype,'getCategories').and.callFake(()=>{return throwError('Error')});
     component.ngOnInit();

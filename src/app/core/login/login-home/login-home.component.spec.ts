@@ -378,7 +378,6 @@ describe('LoginHomeComponent', () => {
     });
     component.onLogin();
     expect(component.wrongDetails).toBeTruthy();
-
   });
 
 

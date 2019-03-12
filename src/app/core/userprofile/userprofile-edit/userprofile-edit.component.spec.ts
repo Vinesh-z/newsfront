@@ -43,6 +43,7 @@ var res = {
   "emailId": "ss@ss.com"
 }
 
+var userData = { userId: '5c7ec2ad8e406e5120cb78a0', username: 'sssssssss', res: true, permissions: { "comments": { "create": false, "read": true, "update": false, "deleteAny": false, "delete": false }, "post": { "create": false, "read": true, "update": false, "delete": false, "like": false, "dislike": false }, "category": { "create": false, "read": true, "update": false, "delete": false } } };
 class MockedFacadeService {
 
   updateUser(reqData) {
@@ -172,7 +173,7 @@ describe('UserprofileEditComponent', () => {
       password: ''
     });
     component.onAddUser();
-    
+    expect(component.detailsCorrectlyFilled).toBeFalsy();
   });
 
   fit('should go back when clicked', () => {
@@ -213,6 +214,8 @@ describe('UserprofileEditComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.dataLoaded).toBeTruthy();
+    expect(component.addUserForm.value.username).toBe(userData.username);
   });
 
   fit('should edit profile', () => {

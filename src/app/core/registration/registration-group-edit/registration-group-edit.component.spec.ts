@@ -55,6 +55,41 @@ var gr =     {
 }
 
 var groups = [gr];
+var grTwo =     {
+  "_id": "5c84eb2ecb36e82f046396dn",
+  "name": "Auditor",
+  "permissions": {
+      "comments": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "deleteAny": false,
+          "delete": false
+      },
+      "post": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false,
+          "like": false,
+          "dislike": false
+      },
+      "category": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+      },
+      "permissions": {
+          "update": true
+      }
+  },
+  "updatedAt": "2019-03-10T18:31:38.050Z",
+  "createdAt": "2019-03-10T10:47:10.497Z",
+  "__v": 0
+}
+
+var groupsTwo = [grTwo];
 
 class MockedFacadeService {
   getGroups() {
@@ -68,6 +103,16 @@ class ActivatedRouteMockTwo {
   queryParams = new Observable(observer => {
     const urlParams = {
       id: '5c84eb2ecb36e82f046396dc'
+    }
+    observer.next(urlParams);
+    observer.complete();
+  });
+}
+
+class ActivatedRouteMock {
+  queryParams = new Observable(observer => {
+    const urlParams = {
+      notId: '5c84eb2ecb36e82f046396dc'
     }
     observer.next(urlParams);
     observer.complete();
@@ -103,11 +148,53 @@ describe('RegistrationGroupEditComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.groupId).toBe('5c84eb2ecb36e82f046396dc');
+    expect(component.thisGroupLoaded).toBeTruthy();
+    spyOn(MockedFacadeService.prototype,'getGroups').and.callFake(()=>{return of([]);});
+    component.ngOnInit();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/register/groups');
+    
   });
   
   fit('should update group', () => {
-    component.updateGroup('testgroup');
+    component.updateGroup('testgroup');    
+    spyOn(MockedFacadeService.prototype,'getGroups').and.callFake(()=>{return of(groupsTwo);});
+    component.ngOnInit();
+    component.updateGroup('Auditor');
+    expect(component.wrongDetails).toBeTruthy();
   });
+
+});
+
+describe('RegistrationGroupEditComponent', () => {
+  let component: RegistrationGroupEditComponent;
+  let fixture: ComponentFixture<RegistrationGroupEditComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientModule], 
+      declarations: [ RegistrationGroupEditComponent, KeysPipe ],
+      providers: [{ provide: FacadeService, useClass: MockedFacadeService },
+        { provide: Router, useClass: MockRouter }, { provide: Router, useClass: MockRouter }, {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock
+        }, { provide: Location, useValue: locationStub }]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(RegistrationGroupEditComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  fit('should create', () => {
+    expect(component).toBeTruthy();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/register/groups');
+    
+  });
+  
 
 });
 
