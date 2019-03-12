@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { PostsLikeComponent } from './posts-like.component';
 import { APP_BASE_HREF } from '@angular/common';
+import { min } from 'moment';
 
 var likes = [
   {
@@ -124,7 +125,11 @@ class MockedFacadeServiceThree {
     return of(postThree);
   }
 }
+class MockRouter {
+  navigateByUrl = jasmine.createSpy('navigateByUrl');
+  navigate = jasmine.createSpy('navigate');
 
+}
 describe('PostsLikeComponent', () => {
   let component: PostsLikeComponent;
   let fixture: ComponentFixture<PostsLikeComponent>;
@@ -134,6 +139,7 @@ describe('PostsLikeComponent', () => {
       imports: [AngularFontAwesomeModule, RouterTestingModule, HttpClientModule],
       declarations: [ PostsLikeComponent ],
       providers: [{provide: APP_BASE_HREF, useValue : '/' }, { provide: FacadeService, useClass: MockedFacadeService }
+      
        ]
     })
     .compileComponents();
@@ -147,6 +153,12 @@ describe('PostsLikeComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.userData).toBeDefined();
+    expect(component.allPostsLoaded).toBeTruthy();
+    spyOn(FacadeService.prototype,'findLikesByUserId').and.callFake(()=>{return false});
+    component.ngOnInit();
+    expect(component.allPostsLoaded).toBeTruthy();
+    
   });
 });
 

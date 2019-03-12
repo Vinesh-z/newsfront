@@ -68,14 +68,14 @@ export class PostsEditComponent implements OnInit {
                 });
                 this.allCategoriesLoaded = true;
               },
-            //  error => { 
-               // console.log(error); 
-            //  }
+              error => { 
+                this.router.navigateByUrl('/');
+              }
             )
           },
-         // error => { 
-           // console.log(error);
-         //  }
+          error => { 
+            this.router.navigateByUrl('/');
+          }
         )
       }
     )

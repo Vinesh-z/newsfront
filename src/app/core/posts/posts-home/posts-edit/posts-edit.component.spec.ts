@@ -170,7 +170,17 @@ describe('PostsEditComponent', () => {
 
   fit('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.thisPostLoaded).toBeTruthy();
+    expect(component.allCategoriesLoaded).toBeTruthy();
+    expect(component.addPostForm.value.postTitle).toBe("Call for apology after PM ‘joke’");
+    spyOn(MockedFacadeService.prototype,'getCategories').and.callFake(()=>{return throwError('Error')});
+    component.ngOnInit();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
+    spyOn(MockedFacadeService.prototype,'getPostById').and.callFake(()=>{return throwError('Error')});
+    component.ngOnInit();
+    expect(TestBed.get(Router).navigateByUrl).toHaveBeenCalledWith('/');
   });
+
 
   fit('should be clicked', () => {
     component.goBack();

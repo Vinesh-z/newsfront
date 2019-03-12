@@ -17,9 +17,6 @@ export class PostsLikeComponent implements OnInit {
   constructor(private router: Router, private facadeService: FacadeService) { }
 
   ngOnInit() {
-    if(this.facadeService.getUserDataFromLocalStorage())
-    //console.log('ettt 1');
-    //console.log(this.facadeService.getUserDataFromLocalStorage());
     if (this.facadeService.getUserDataFromLocalStorage()) {
       this.currentPermissions = this.facadeService.getUserDataFromLocalStorage().permissions;
       this.userData = this.facadeService.getUserDataFromLocalStorage();
