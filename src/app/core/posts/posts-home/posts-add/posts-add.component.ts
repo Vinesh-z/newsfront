@@ -167,7 +167,6 @@ export class PostsAddComponent implements OnInit {
             res => {
               var uploadData = new FormData();
               uploadData.append('postImage', this.selectedFile);
-              console.log(uploadData);
               this.facadeService.saveImage(uploadData, res.body._id).subscribe(
                 response => {
                   this.router.navigateByUrl('/');
@@ -203,7 +202,6 @@ export class PostsAddComponent implements OnInit {
           file: reader.result
         });
         this.changeDetector.markForCheck();
-        console.log('haha');
       };
     }
   } */

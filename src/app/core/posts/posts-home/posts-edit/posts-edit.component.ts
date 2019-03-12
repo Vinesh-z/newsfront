@@ -38,7 +38,6 @@ export class PostsEditComponent implements OnInit {
                 res.forEach(element => {
                   if (element._id === this.thisPost.categoryId) {
                     this.thisCategory = element;
-                   // console.log(this.thisCategory);
                   }
                 });
 
@@ -101,7 +100,6 @@ export class PostsEditComponent implements OnInit {
           }
         }
       );
-     // console.log(requestData);
     }
     else {
       this.detailsCorrectlyFilled = false;
