@@ -74,7 +74,6 @@ export class PostsDetailsComponent implements OnInit {
 
                 this.facadeService.findLikesByPostId(this.thisPost._id).subscribe(
                   res => {
-                    //console.log(res);
                     this.thisPost.likes = res;
                     this.thisPost.likesCount = this.thisPost.likes.length;
                     this.facadeService.findDislikesByPostId(this.thisPost._id).subscribe(
@@ -84,15 +83,12 @@ export class PostsDetailsComponent implements OnInit {
                         this.fetchAllComments();
                         this.facadeService.getCategories().subscribe(
                           res => {
-                            //console.log(res);
                             this.allCategories = res;
-                            //console.log('search 2');
                             var requestD = {
                               searchKey: this.thisPost.title
                             }
                             this.facadeService.getRelatedPosts(requestD).subscribe(
                               res => {
-                                //console.log(res);
                                 var allPostsTemp = [];
                                 res.body.forEach(element => {
                                   if (element) {
@@ -103,7 +99,6 @@ export class PostsDetailsComponent implements OnInit {
                                 });
                                 this.allPosts = allPostsTemp;
                                 this.allPosts = this.allPosts;
-                                //console.log(this.allPosts);
                                 this.allPosts.forEach(post => {
                                   if (!post.postImage) {
                                     if (post.urlToImage)
@@ -112,7 +107,6 @@ export class PostsDetailsComponent implements OnInit {
                                       post.postImage = 'https://dw9to29mmj727.cloudfront.net/promo/2016/5868-SeriesHeaders_PromisedNeverland_2000x800.jpg';
                                   }
                                   else {
-                                   // console.log(post.postImage);
                                     post.postImage = 'http://localhost:3000/' + post.postImage;
                                   }
                                   post.categoryName = this.allCategories.filter(cat => cat._id === post.categoryId)[0].name;
@@ -163,11 +157,9 @@ export class PostsDetailsComponent implements OnInit {
 
   setLikeDislikeButtons() {
     if (this.loginService.userLoggedIn) {
-      //console.log(this.thisPost);
       this.facadeService.findLikeByPostIdAndUserId(this.thisPost._id, this.loginService.getUserDataFromLocalStorage().userId).subscribe(
         res => {
           if (res) {
-            //console.log('haha\n' + res);
             this.userLiked = true;
             this.likeDataLoaded = true;
           }
@@ -176,15 +168,10 @@ export class PostsDetailsComponent implements OnInit {
               .subscribe(
                 res => {
                   if (res) {
-                    //console.log('haha2\n' + res);
-                    //console.log(this.userLiked);
-                    //console.log(this.userDisliked);
                     this.userDisliked = true;
                     this.likeDataLoaded = true;
                   }
                   else {
-
-                   // console.log('haha3\n' + res);
                     this.likeDataLoaded = true;
                   }
                 },
@@ -215,12 +202,8 @@ export class PostsDetailsComponent implements OnInit {
   }
 
   fetchAllComments() {
-   // console.log(this.thisPost._id);
     this.facadeService.getCommentsByPostId(this.thisPost._id).subscribe(
       res => {
-       // console.log(res);
-      //  if (res)
-        //  console.log('hhhhhh');
         this.allComments = res;
         var count = 0;
         var totalCount = this.allComments.length;
@@ -228,12 +211,10 @@ export class PostsDetailsComponent implements OnInit {
         if (this.allComments.length <= 0) {
           this.setLikeDislikeButtons();
           this.allCommentsLoaded = true;
-          //console.log('yes2');
           this.thisPostLoaded = true;
         }
         else {
           this.allComments.forEach(comment => {
-           // console.log(comment);
             comment.createdAtParsed = moment(comment.createdAt).calendar();
             this.facadeService.getUsernameById(comment.userId).subscribe(
               res => {
@@ -243,12 +224,10 @@ export class PostsDetailsComponent implements OnInit {
                   comment.nestedComments.forEach(comm => {
                     this.facadeService.getUsernameById(comm.userId).subscribe(
                       res => {
-                     //   console.log(comm.userId);
                         comm.username = res.username;
                         if (count == totalCount) {
                           this.setLikeDislikeButtons();
                           this.allCommentsLoaded = true;
-                       //   console.log('yes1');
                           this.thisPostLoaded = true;
                         }
                       },
@@ -262,7 +241,6 @@ export class PostsDetailsComponent implements OnInit {
                   if (count == totalCount) {
                     this.setLikeDislikeButtons();
                     this.allCommentsLoaded = true;
-                   // console.log('yes2');
                     this.thisPostLoaded = true;
                   }
                 }
@@ -297,12 +275,10 @@ export class PostsDetailsComponent implements OnInit {
         //  console.log(error);
        //  }
       )
-      //console.log(requestData);
     }
   }
 
   onAddCommentReply(commentId) {
-    //console.log(commentId);
     if (this.addCommentReplyForm.value.content.length > 19 && this.loginService.userLoggedIn && this.loginService.getUserDataFromLocalStorage().res) {
       const requestData = {
         content: this.addCommentReplyForm.value.content,
@@ -314,7 +290,6 @@ export class PostsDetailsComponent implements OnInit {
           //console.log(error); 
         }
       )
-    //  console.log(requestData);
     }
   }
 
@@ -328,12 +303,10 @@ export class PostsDetailsComponent implements OnInit {
   }
 
   saveLike() {
-   // console.log(this.loginService.getUserDataFromLocalStorage());
     var requestData = {
       "postId": this.thisPost._id,
       "userId": this.loginService.getUserDataFromLocalStorage().userId
     }
-    //console.log(requestData);
     this.facadeService.saveLike(requestData).subscribe(
       res => { if (this.userDisliked) this.userDisliked = false; this.userLiked = !this.userLiked; this.ngOnInit(); },
       error => { 

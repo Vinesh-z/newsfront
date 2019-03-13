@@ -1,7 +1,7 @@
 import { Interceptor } from './shared/interceptor.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -22,6 +22,7 @@ import { LoaderComponent } from './shared/loader/loader/loader.component';
 import { HighlightDirective } from './shared/highlight.directive';
 import { MymodalDirective } from './shared/mymodal.directive';
 import { MymodalComponent } from './shared/mymodal/mymodal.component';
+import { GlobalErrorHandler } from './core/errors/GlobalErrorHandler';
 
 // Configs 
 export function getAuthServiceConfigs() {
@@ -73,6 +74,10 @@ export function getAuthServiceConfigs() {
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
+    },
+    {
+      provide: ErrorHandler, 
+      useClass: GlobalErrorHandler
     }
   ],
   bootstrap: [AppComponent]

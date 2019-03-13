@@ -24,62 +24,15 @@ export class Interceptor implements HttpInterceptor {
     /*console.log('inter' + ' ' + this.token);
     console.log(copiedReq);*/
     return next.handle(copiedReq)
-      .pipe(catchError(err => {
+     /* .pipe(catchError(err => {
         if (err instanceof HttpErrorResponse) {
-          /*
+          
           if (err.status === 0) {
             this.facadeService.errorGenerated = true;
             this.router.navigateByUrl('/error');
-          }*/
+          }
         }
         return Observable.throw(err);
-      }));
-    /*
-        return next.handle(copiedReq).map((event: HttpEvent<any>) => {
-          if(event instanceof HttpErrorResponse) {
-            console.log('haha');
-          }
-          if (event instanceof HttpResponse) {
-            var i;
-            for (i = 0; i < 1000; i++);/*
-            if (event.headers.get('notauthenticated')) {
-              this.loginService.sessionTimedOut = true;
-              if (this.loginService.getUserDataFromLocalStorage()) {
-                if (JSON.parse(this.loginService.logoutUser()).loggedOut) {
-                  localStorage.removeItem("expiryTime");
-                  this.loginService.fetchGuestPermissions().subscribe(
-                    res => {
-                      this.loginService.setGuestPermissions(res);
-                      this.router.navigateByUrl('/');
-                    },
-                    error => { this.router.navigateByUrl('/'); }
-                  )
-                }
-              }
-            }*/
-    /*
-    else if (event.body.res) {
-      if (event.body.res.includes('Authentication failed')) {
-        this.loginService.sessionTimedOut = true;
-        if (this.loginService.getUserDataFromLocalStorage()) {
-          if (JSON.parse(this.loginService.logoutUser()).loggedOut) {
-            localStorage.removeItem("expiryTime");
-            this.loginService.fetchGuestPermissions().subscribe(
-              res => {
-                this.loginService.setGuestPermissions(res);
-                this.router.navigateByUrl('/');
-              },
-              error => { this.router.navigateByUrl('/'); }
-            )
-          }
-        }
-      }
-    }*/
-
-    /*
-          }
-          
-          return event;
-        });*/
+      }))*/;
   }
 }
